@@ -1,6 +1,6 @@
-CREATE DATABASE comment_manager;
+CREATE DATABASE comment;
 
-GRANT ALL PRIVILEGES ON DATABASE comment_manager TO comment_manager;
+GRANT ALL PRIVILEGES ON DATABASE comment TO comment_manager;
 
 CREATE TABLE comment.task
 (
