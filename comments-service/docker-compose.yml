@@ -28,6 +28,7 @@ services:
       - "5001:80"
     links:
       - web_db
+
   app:
     build:
       dockerfile: docker/app/app.Dockerfile
