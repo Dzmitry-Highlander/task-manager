@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://web_db:5432/comment?ApplicationName=comments-service
+    url: jdbc:postgresql://web_db:5432/comment?ApplicationName=comments-app
     username: comment-manager
     password: comment-manager
     hikari:
