@@ -1,6 +1,7 @@
 # APP_ROOT/docker-compose.yml
-#         /db/init.sql
-#         /db/db.Dockerfile
+#         /docker/db/ddl/init.sql
+#         /docker/db/db.Dockerfile
+#         /docker/app/app.Dockerfile
 version: '3.4'
 
 services:
