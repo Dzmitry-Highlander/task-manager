@@ -30,7 +30,7 @@ services:
       - web_db
   app:
     build:
-      context: docker/db
+      context: docker/app
       dockerfile: app.Dockerfile
     restart: unless-stopped
     ports:
