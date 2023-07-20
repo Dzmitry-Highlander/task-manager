@@ -1,8 +1,15 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/comment
+    url: jdbc:postgresql://192.168.1.100:5432/comment?ApplicationName=comments-service
     username: comment-manager
     password: comment-manager
+    hikari:
+      maximum-pool-size: 6
+      minimum-idle: 3
+  freemarker:
+    check-template-location: false
+  jpa:
+    open-in-view: false
 server:
   port: 80

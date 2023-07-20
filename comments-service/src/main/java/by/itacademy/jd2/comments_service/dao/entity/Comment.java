@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comment", schema = "comment")
 public class Comment implements Serializable {
     @Id
     @Column(name = "comment_id")
