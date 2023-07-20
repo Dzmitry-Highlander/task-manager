@@ -1,0 +1,27 @@
+# APP_ROOT/docker-compose.yml
+#         /db/init.sql
+#         /db/db.Dockerfile
+version: '3.4'
+
+services:
+
+  web_db:
+    build:
+      context: ./db
+      dockerfile: db.Dockerfile
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: task_manager
+      POSTGRES_PASSWORD: task_manager
+
+  pg_db:
+    image: dpage/pgadmin4:7.4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: strixmymail@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: dima1193
+    volumes:
+      - ./var/pgdata:/var/lib/postgresql/data
+    ports:
+      - 777:80
