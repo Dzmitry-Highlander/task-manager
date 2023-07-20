@@ -1,2 +1,2 @@
-CREATE DATABASE task_manager_dev;
-GRANT ALL PRIVILEGES ON DATABASE task_manager_dev TO task_manager;
+CREATE DATABASE comment_manager;
+GRANT ALL PRIVILEGES ON DATABASE comment_manager TO comment_manager;
