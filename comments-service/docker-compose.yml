@@ -20,7 +20,7 @@ services:
     container_name: pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: comment-manager
+      PGADMIN_DEFAULT_EMAIL: comment-manager@gmail.com
       PGADMIN_DEFAULT_PASSWORD: comment-manager
     volumes:
       - ./var/pgdata:/var/lib/postgresql/data
