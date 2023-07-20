@@ -24,7 +24,7 @@ services:
     volumes:
       - ./var/pgdata:/var/lib/postgresql/data
     ports:
-      - 5001:80
+      - "5001:80"
     links:
       - web_db
   app:
@@ -33,6 +33,6 @@ services:
       dockerfile: app.Dockerfile
     restart: unless-stopped
     ports:
-      - 5000:80
+      - "5000:80"
     links:
       - web_db
