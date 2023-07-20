@@ -1,9 +1,9 @@
 package by.itacademy.jd2.comments_service.service.converter;
 
-import by.itacademy.jd2.core.dto.CommentDTO;
-import by.itacademy.jd2.core.dto.TaskDTO;
-import by.itacademy.jd2.core.dto.UserDTO;
-import by.itacademy.jd2.dao.entity.Comment;
+import by.itacademy.jd2.comments_service.core.dto.CommentDTO;
+import by.itacademy.jd2.comments_service.core.dto.TaskDTO;
+import by.itacademy.jd2.comments_service.core.dto.UserDTO;
+import by.itacademy.jd2.comments_service.dao.entity.Comment;
 import org.springframework.core.convert.converter.Converter;
 
 import java.time.ZoneId;

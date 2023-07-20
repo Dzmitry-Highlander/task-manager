@@ -1,9 +1,9 @@
 package by.itacademy.jd2.comments_service.web;
 
-import by.itacademy.jd2.core.dto.CommentCreateDTO;
-import by.itacademy.jd2.core.dto.CommentDTO;
-import by.itacademy.jd2.dao.entity.Comment;
-import by.itacademy.jd2.service.api.ICommentService;
+import by.itacademy.jd2.comments_service.core.dto.CommentCreateDTO;
+import by.itacademy.jd2.comments_service.core.dto.CommentDTO;
+import by.itacademy.jd2.comments_service.dao.entity.Comment;
+import by.itacademy.jd2.comments_service.service.api.ICommentService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

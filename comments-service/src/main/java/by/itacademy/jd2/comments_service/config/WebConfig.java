@@ -1,6 +1,6 @@
 package by.itacademy.jd2.comments_service.config;
 
-import by.itacademy.jd2.service.converter.CommentToCommentDTOConverter;
+import by.itacademy.jd2.comments_service.service.converter.CommentToCommentDTOConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;

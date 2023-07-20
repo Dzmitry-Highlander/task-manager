@@ -1,4 +1,4 @@
-package by.itacademy.jd2.comments_service.dto;
+package by.itacademy.jd2.comments_service.core.dto;
 
 public class CommentCreateDTO {
     private Long createDate;

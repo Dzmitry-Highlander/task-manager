@@ -1,6 +1,6 @@
 package by.itacademy.jd2.comments_service.dao.api;
 
-import by.itacademy.jd2.dao.entity.Comment;
+import by.itacademy.jd2.comments_service.dao.entity.Comment;
 import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.UUID;
