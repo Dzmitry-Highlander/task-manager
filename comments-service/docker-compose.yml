@@ -11,16 +11,16 @@ services:
       dockerfile: db.Dockerfile
     restart: unless-stopped
     environment:
-      POSTGRES_USER: task_manager
-      POSTGRES_PASSWORD: task_manager
+      POSTGRES_USER: comment-manager
+      POSTGRES_PASSWORD: comment-manager
 
   pg_db:
     image: dpage/pgadmin4:7.4
     container_name: pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: strixmymail@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: dima1193
+      PGADMIN_DEFAULT_EMAIL: comment-manager
+      PGADMIN_DEFAULT_PASSWORD: comment-manager
     volumes:
       - ./var/pgdata:/var/lib/postgresql/data
     ports:
