@@ -1,6 +1,10 @@
 package by.itacademy.jd2.comments_service.dao.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,6 +13,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "comment", schema = "comment")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Comment implements Serializable {
     @Id
     @Column(name = "comment_id")
@@ -23,57 +31,6 @@ public class Comment implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     private Task task;
-
-    public Comment() {
-    }
-
-    public Comment(UUID id, LocalDateTime createDate, String text, User user, Task task) {
-        this.id = id;
-        this.createDate = createDate;
-        this.text = text;
-        this.user = user;
-        this.task = task;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
 
     @Override
     public boolean equals(Object o) {
