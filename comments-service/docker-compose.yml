@@ -30,8 +30,7 @@ services:
       - web_db
   app:
     build:
-      context: docker/app
-      dockerfile: app.Dockerfile
+      dockerfile: docker/app/app.Dockerfile
     restart: unless-stopped
     ports:
       - "5000:80"
