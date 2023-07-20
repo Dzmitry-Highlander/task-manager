@@ -7,7 +7,7 @@ services:
 
   web_db:
     build:
-      context: ./db
+      context: docker/db
       dockerfile: db.Dockerfile
     restart: unless-stopped
     environment:
@@ -29,7 +29,7 @@ services:
       - web_db
   app:
     build:
-      context: ./app
+      context: docker/app
       dockerfile: app.Dockerfile
     restart: unless-stopped
     ports:
