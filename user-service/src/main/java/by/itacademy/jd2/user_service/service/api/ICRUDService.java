@@ -8,9 +8,9 @@ public interface ICRUDService<T, S> {
 
     List<T> read();
 
-    T read(UUID uuid);
+    T read(UUID id);
 
-    T update(UUID uuid, Long version, S item);
+    T update(UUID id, Long version, S item);
 
-    void delete(UUID uuid, Long version);
+    void delete(UUID id, Long version);
 }
