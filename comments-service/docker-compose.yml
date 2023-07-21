@@ -8,7 +8,7 @@ services:
 
   web_db:
     build:
-      context: docker/db
+      context: ./docker/db
       dockerfile: db.Dockerfile
     restart: unless-stopped
     environment:

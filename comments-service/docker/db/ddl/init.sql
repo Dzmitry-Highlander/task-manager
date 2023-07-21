@@ -1,6 +1,8 @@
 CREATE DATABASE comment;
-
 GRANT ALL PRIVILEGES ON DATABASE comment TO comment_manager;
+
+\c comment_manager comment_manager;
+CREATE SCHEMA comment;
 
 CREATE TABLE comment.task
 (
