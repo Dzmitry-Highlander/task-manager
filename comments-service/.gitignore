@@ -1,4 +1,9 @@
 ### Java template
+# Spring Init
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
 # Compiled class file
 *.class
 
