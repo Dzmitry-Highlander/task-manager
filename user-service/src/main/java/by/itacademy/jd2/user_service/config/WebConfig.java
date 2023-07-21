@@ -1,5 +1,6 @@
 package by.itacademy.jd2.user_service.config;
 
+import by.itacademy.jd2.user_service.service.converter.UserToUserDTOConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -21,8 +22,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        //TODO addConverter
-        //registry.addConverter(new CommentToCommentDTOConverter());
+        registry.addConverter(new UserToUserDTOConverter());
     }
 
     @Override
