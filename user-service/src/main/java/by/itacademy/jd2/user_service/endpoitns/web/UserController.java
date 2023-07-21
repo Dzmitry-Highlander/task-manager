@@ -7,6 +7,7 @@ import by.itacademy.jd2.user_service.service.api.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -39,9 +40,11 @@ public class UserController {
     }
 
     @PostMapping("/")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void post(@RequestBody UserCreateDTO dto) {
-        this.userService.create(dto);
+    public ResponseEntity<UserDTO> post(@RequestBody UserCreateDTO dto) {
+        User userEntity = userService.create(dto);
+        UserDTO userDTO = conversionService.convert(userEntity, UserDTO.class);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
     //TODO delete(), update()
