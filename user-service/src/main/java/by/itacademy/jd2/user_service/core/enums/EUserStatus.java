@@ -1,12 +1,12 @@
 package by.itacademy.jd2.user_service.core.enums;
 
-public enum EStatus {
+public enum EUserStatus {
     ACTIVE("active"),
     BANNED("banned");
 
     private final String status;
 
-    EStatus(String status) {
+    EUserStatus(String status) {
         this.status = status;
     }
 

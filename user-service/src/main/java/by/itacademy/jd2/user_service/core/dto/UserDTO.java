@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.core.dto;
 
-import by.itacademy.jd2.user_service.core.enums.ERole;
-import by.itacademy.jd2.user_service.core.enums.EStatus;
+import by.itacademy.jd2.user_service.core.enums.EUserRole;
+import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,6 @@ public class UserDTO {
     private Long updateDate;
     private String mail;
     private String fio;
-    private ERole role;
-    private EStatus status;
+    private EUserRole role;
+    private EUserStatus status;
 }
