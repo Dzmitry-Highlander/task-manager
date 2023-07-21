@@ -1,7 +1,21 @@
+DO $$
+BEGIN
+CREATE ROLE comment_manager WITH
+    LOGIN
+    SUPERUSER
+    INHERIT
+    CREATEDB
+    CREATEROLE
+    REPLICATION;
+EXCEPTION WHEN duplicate_object THEN RAISE NOTICE '%, skipping', SQLERRM USING ERRCODE = SQLSTATE;
+END
+$$;
+
 CREATE DATABASE comment;
 GRANT ALL PRIVILEGES ON DATABASE comment TO comment_manager;
 
-\c comment_manager comment_manager;
+\c comment;
+
 CREATE SCHEMA comment;
 
 CREATE TABLE comment.task
