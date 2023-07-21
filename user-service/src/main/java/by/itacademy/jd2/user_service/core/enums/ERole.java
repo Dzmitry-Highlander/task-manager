@@ -1,8 +1,8 @@
 package by.itacademy.jd2.user_service.core.enums;
 
 public enum ERole {
-    ADMIN("admin"),
-    USER("user");
+    ADMIN("Администратор"),
+    USER("Пользователь");
 
     private final String role;
 
