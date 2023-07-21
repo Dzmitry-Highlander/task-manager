@@ -22,23 +22,30 @@ public class User implements Serializable {
     @Id
     @Column(name = "user_id")
     private UUID id;
+
     @CreationTimestamp
     @Column(name = "dt_create")
     private LocalDateTime createDate;
+
     @Version
     @UpdateTimestamp
     @Column(name = "dt_update")
     private LocalDateTime updateDate;
+
     @Column(name = "mail")
     private String mail;
+
     @Column(name = "fio")
     private String fio;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private EUserRole role;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private EUserStatus status;
+
     @Column(name = "password")
     private String password;
 }
