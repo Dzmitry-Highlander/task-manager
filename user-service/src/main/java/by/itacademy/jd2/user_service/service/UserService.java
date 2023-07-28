@@ -18,7 +18,10 @@ public class UserService implements IUserService {
 
     @Override
     public User create(UserCreateDTO item) {
-
+        userDao.findByEmail(item.getMail()).ifPresent(e -> {
+            //TODO customException
+            throw new RuntimeException("Email has benn already taken!");
+        });
 
         return userDao.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
     }
