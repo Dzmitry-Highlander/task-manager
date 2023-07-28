@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -47,5 +48,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
-    //TODO update()
+    @PutMapping("/{uuid}/dt_update/{dt_update}")
+    public ResponseEntity<UserDTO> update(
+            @PathVariable UUID uuid,
+            @PathVariable("dt_update") Long updateDate,
+            @RequestBody UserCreateDTO userCreateDTO) {
+        //TODO conversion или
+        User updatedUser = userService.update(uuid, updateDate, userCreateDTO);
+        UserDTO userDTO = this.conversionService.convert(updatedUser, UserDTO.class);
+
+        return new ResponseEntity<>(userDTO, HttpStatus.ACCEPTED);
+    }
 }
