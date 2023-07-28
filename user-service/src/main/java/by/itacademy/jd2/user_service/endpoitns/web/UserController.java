@@ -47,5 +47,5 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
-    //TODO delete(), update()
+    //TODO update()
 }
