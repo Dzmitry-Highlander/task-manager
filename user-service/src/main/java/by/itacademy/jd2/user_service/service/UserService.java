@@ -37,10 +37,19 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new IllegalArgumentException("NO NO NO!"));
     }
 
-    //TODO update()
     @Override
     public User update(UUID uuid, Long version, UserCreateDTO item) {
-        return null;
+        User user = Objects.requireNonNull(conversionService.convert(item, User.class));
+        User currentUser = this.read(Objects.requireNonNull(user.getId()));
+
+        user.setCreateDate(currentUser.getCreateDate());
+
+        if (user.getUpdateDate().isEqual(currentUser.getUpdateDate())) {
+            return userDao.save(user);
+        } else {
+            //TODO customException
+            throw new RuntimeException("Versions don't match!");
+        }
     }
 
     //TODO delete()
