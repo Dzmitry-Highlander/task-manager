@@ -18,7 +18,8 @@ public class UserService implements IUserService {
 
     @Override
     public User create(UserCreateDTO item) {
-        //TODO проверка email в базе или нет?
+
+
         return userDao.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
     }
 
