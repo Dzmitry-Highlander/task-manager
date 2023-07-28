@@ -53,7 +53,7 @@ public class UserController {
             @PathVariable UUID uuid,
             @PathVariable("dt_update") Long updateDate,
             @RequestBody UserCreateDTO userCreateDTO) {
-        //TODO conversion или
+        //TODO Converter или Formatter
         User updatedUser = userService.update(uuid, updateDate, userCreateDTO);
         UserDTO userDTO = this.conversionService.convert(updatedUser, UserDTO.class);
 
