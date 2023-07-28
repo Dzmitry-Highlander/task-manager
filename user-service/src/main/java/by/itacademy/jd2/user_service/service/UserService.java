@@ -20,7 +20,7 @@ public class UserService implements IUserService {
     public User create(UserCreateDTO item) {
         userDao.findByEmail(item.getMail()).ifPresent(e -> {
             //TODO customException
-            throw new RuntimeException("Email has benn already taken!");
+            throw new RuntimeException("Email has been already taken!");
         });
 
         return userDao.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
