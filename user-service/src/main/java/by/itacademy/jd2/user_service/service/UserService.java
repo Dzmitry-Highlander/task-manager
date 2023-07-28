@@ -34,7 +34,8 @@ public class UserService implements IUserService {
     @Override
     public User read(UUID id) {
         return userDao.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("NO NO NO!"));
+                //TODO customException
+                .orElseThrow(() -> new IllegalArgumentException("User is not found!"));
     }
 
     @Override
