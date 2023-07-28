@@ -11,6 +11,4 @@ public interface ICRUDService<T, S> {
     T read(UUID id);
 
     T update(UUID id, Long version, S item);
-
-    void delete(UUID id, Long version);
 }

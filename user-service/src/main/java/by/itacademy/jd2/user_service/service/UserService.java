@@ -51,10 +51,4 @@ public class UserService implements IUserService {
             throw new RuntimeException("Versions don't match!");
         }
     }
-
-    //TODO delete()
-    @Override
-    public void delete(UUID uuid, Long version) {
-
-    }
 }
