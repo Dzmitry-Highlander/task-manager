@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.service;
 
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
-import by.itacademy.jd2.user_service.dao.api.IUserDao;
+import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 public class UserService implements IUserService {
-    private final IUserDao userDao;
+    private final IUserRepository userDao;
     private final ConversionService conversionService;
 
     @Override

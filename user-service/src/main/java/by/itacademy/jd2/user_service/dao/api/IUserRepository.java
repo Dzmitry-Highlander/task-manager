@@ -6,6 +6,6 @@ import org.springframework.data.repository.ListCrudRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IUserDao extends ListCrudRepository<User, UUID> {
+public interface IUserRepository extends ListCrudRepository<User, UUID> {
     Optional<User> findByEmail(String email);
 }
