@@ -44,6 +44,20 @@ public class JwtService {
                 .compact();
     }
 
+    public boolean validate(String token, UserDetails userDetails) {
+        final String userEmail = extractUserEmail(token);
+
+        return (userEmail.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
     private Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
