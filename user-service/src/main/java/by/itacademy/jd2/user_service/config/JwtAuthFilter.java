@@ -1,5 +1,6 @@
 package by.itacademy.jd2.user_service.config;
 
+import by.itacademy.jd2.user_service.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import static org.apache.logging.log4j.util.Strings.isEmpty;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
+    private final JwtService jwtService;
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -24,7 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String jwtToken;
+        final String jwt;
         final String userEmail;
 
         if (isEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
@@ -33,7 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        jwtToken = authHeader.substring(7);
-       //userEmail = //TODO extract the UserMail from JWT token;
+        jwt = authHeader.substring(7);
+        userEmail = jwtService.extractUserEmail(jwt);
     }
 }
