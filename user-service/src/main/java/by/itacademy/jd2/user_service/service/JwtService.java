@@ -11,8 +11,8 @@ import java.util.function.Function;
 public class JwtService {
     private JWTProperty property;
 
-    public String extractUserEmail(String jwt) {
-        return null;
+    public String extractUserEmail(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
