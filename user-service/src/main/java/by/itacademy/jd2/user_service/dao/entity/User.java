@@ -14,6 +14,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "users", schema = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
