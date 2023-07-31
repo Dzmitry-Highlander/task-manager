@@ -13,11 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users", schema = "users")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class User implements Serializable {
     @Id
     @Column(name = "user_id")
