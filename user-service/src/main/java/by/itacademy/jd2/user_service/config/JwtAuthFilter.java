@@ -24,11 +24,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String JWTToken;
+        final String jwtToken;
 
         if (isEmpty(authHeader) || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
+
             return;
         }
+
+        jwtToken = authHeader.substring(7);
     }
 }
