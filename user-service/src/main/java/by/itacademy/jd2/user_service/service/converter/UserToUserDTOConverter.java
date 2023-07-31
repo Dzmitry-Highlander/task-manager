@@ -9,16 +9,14 @@ import java.time.ZoneId;
 public class UserToUserDTOConverter implements Converter<User, UserDTO> {
     @Override
     public UserDTO convert(User from) {
-        UserDTO userDTO = new UserDTO();
-
-        userDTO.setId(from.getId());
-        userDTO.setCreateDate(from.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-        userDTO.setUpdateDate(from.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-        userDTO.setMail(from.getMail());
-        userDTO.setFio(from.getFio());
-        userDTO.setRole(from.getRole());
-        userDTO.setStatus(from.getStatus());
-
-        return userDTO;
+        return UserDTO.builder()
+                .id(from.getId())
+                .createDate(from.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .updateDate(from.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .mail(from.getMail())
+                .fio(from.getFio())
+                .role(from.getRole())
+                .status(from.getStatus())
+                .build();
     }
 }
