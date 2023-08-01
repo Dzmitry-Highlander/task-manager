@@ -17,12 +17,12 @@ public class MailSenderService implements IMailSenderService {
 
     @Override
     @Async
-    public void send(User user) {
+    public void send(String email) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         int code = 1;
 
         mailMessage.setFrom(property.getEmail());
-        mailMessage.setTo(user.getEmail());
+        mailMessage.setTo(email);
         mailMessage.setText("Your code: " + code);
 
         mailSender.send(mailMessage);

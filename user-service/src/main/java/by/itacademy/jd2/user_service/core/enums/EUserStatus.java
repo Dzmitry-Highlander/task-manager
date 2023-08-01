@@ -6,8 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum EUserStatus {
-    ACTIVE("active"),
-    BANNED("banned");
+    ACTIVATED("activated"),
+    DEACTIVATED("deactivated"),
+    WAITING_ACTIVATION("waiting activation");
 
     private final String status;
 }

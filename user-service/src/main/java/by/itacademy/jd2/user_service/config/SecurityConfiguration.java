@@ -26,10 +26,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                .requestMatchers("/api/v1/auth/**")
+                                .requestMatchers("/api/v1/users/registration")
                                 .permitAll()
-                                .requestMatchers("/api/v1/demo-controller")
-                                .hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/api/v1/users/login")
+                                .permitAll()
+                                .requestMatchers("/api/v1/demo")
+                                .hasAnyAuthority("ROLE_USER")
                                 .anyRequest()
                                 .authenticated()
                 )
@@ -39,16 +41,12 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling
-                                .authenticationEntryPoint((request, response, ex) -> {
-                                    response.setStatus(
-                                            HttpServletResponse.SC_UNAUTHORIZED
-                                    );
-                                })
-                                .accessDeniedHandler((request, response, ex) -> {
-                                    response.setStatus(
-                                            HttpServletResponse.SC_FORBIDDEN
-                                    );
-                                })
+                                .authenticationEntryPoint((request, response, ex) -> response.setStatus(
+                                        HttpServletResponse.SC_UNAUTHORIZED
+                                ))
+                                .accessDeniedHandler((request, response, ex) -> response.setStatus(
+                                        HttpServletResponse.SC_FORBIDDEN
+                                ))
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
