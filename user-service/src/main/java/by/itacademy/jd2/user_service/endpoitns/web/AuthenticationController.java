@@ -2,7 +2,7 @@ package by.itacademy.jd2.user_service.endpoitns.web;
 
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
-import by.itacademy.jd2.user_service.core.dto.AuthenticationResponse;
+import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +18,12 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserRegistrationDTO request) {
+    public ResponseEntity<AuthenticationResponseDTO> register(@RequestBody UserRegistrationDTO request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody UserLoginDTO request) {
+    public ResponseEntity<AuthenticationResponseDTO> register(@RequestBody UserLoginDTO request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }
