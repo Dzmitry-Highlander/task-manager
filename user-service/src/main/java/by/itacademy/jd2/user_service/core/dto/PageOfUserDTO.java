@@ -1,16 +1,13 @@
 package by.itacademy.jd2.user_service.core.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@NoArgsConstructor
+@Data
+@Builder
 @AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor
 public class PageOfUserDTO {
     private Integer number;
     private Integer size;

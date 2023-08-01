@@ -6,7 +6,10 @@ import lombok.*;
 
 import java.util.UUID;
 
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private UUID id;
     private Long createDate;

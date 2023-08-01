@@ -1,11 +1,11 @@
 package by.itacademy.jd2.user_service.service;
 
+import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
+import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
-import by.itacademy.jd2.user_service.endpoitns.web.auth.AuthenticationRequest;
-import by.itacademy.jd2.user_service.endpoitns.web.auth.AuthenticationResponse;
-import by.itacademy.jd2.user_service.endpoitns.web.auth.RegisterRequest;
+import by.itacademy.jd2.user_service.core.dto.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +20,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(UserRegistrationDTO request) {
         var user = User.builder()
                 .fio(request.getFio())
                 .email(request.getEmail())
@@ -37,7 +37,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(UserLoginDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

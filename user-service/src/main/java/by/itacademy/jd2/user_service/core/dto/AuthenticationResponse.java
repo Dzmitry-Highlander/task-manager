@@ -1,4 +1,4 @@
-package by.itacademy.jd2.user_service.endpoitns.web.auth;
+package by.itacademy.jd2.user_service.core.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
