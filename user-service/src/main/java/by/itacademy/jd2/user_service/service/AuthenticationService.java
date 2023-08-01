@@ -39,7 +39,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
             userRepository.save(user);
         } else {
-            throw new IllegalStateException("Such user exists!");
+            throw new IllegalStateException("Such user exists!"); //TODO handle the Exception;
         }
 
         var jwtToken = jwtService.generateToken(user);
@@ -70,7 +70,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Transactional
     public String verification(String mail) {
         Optional<User> userOptional = userRepository.findByEmail(mail);
-        User entity = userOptional.orElseThrow(() -> new EntityNotFoundException("Mo such Entity!"));
+        User entity = userOptional.orElseThrow(() -> new EntityNotFoundException("No such Entity!")); //TODO handle the Exception;
 
         entity.setStatus(EUserStatus.ACTIVATED);
 
