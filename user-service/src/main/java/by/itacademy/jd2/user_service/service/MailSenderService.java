@@ -1,0 +1,30 @@
+package by.itacademy.jd2.user_service.service;
+
+import by.itacademy.jd2.user_service.config.properties.MailProperty;
+import by.itacademy.jd2.user_service.dao.entity.User;
+import by.itacademy.jd2.user_service.service.api.IMailSenderService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class MailSenderService implements IMailSenderService {
+    private final MailProperty property;
+    private final JavaMailSender mailSender;
+    private final ActivatorGeneratorService generatorService;
+
+    @Override
+    @Async
+    public void send(User user) {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+        mailMessage.setFrom(property.getEmail());
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setText("Your code: " + generatorService.generate(user.getEmail()).getCode());
+
+        mailSender.send(mailMessage);
+    }
+}
