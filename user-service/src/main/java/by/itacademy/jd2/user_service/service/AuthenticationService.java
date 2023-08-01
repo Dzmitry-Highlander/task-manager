@@ -23,7 +23,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .fio(request.getFio())
-                .mail(request.getMail())
+                .email(request.getMail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(EUserRole.ROLE_USER)
                 .build();

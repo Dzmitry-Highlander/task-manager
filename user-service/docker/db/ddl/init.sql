@@ -1,6 +1,6 @@
 DO $$
 BEGIN
-CREATE ROLE users-manager WITH
+CREATE ROLE manager WITH
     LOGIN
     SUPERUSER
     INHERIT
@@ -11,9 +11,9 @@ EXCEPTION WHEN duplicate_object THEN RAISE NOTICE '%, skipping', SQLERRM USING E
 END
 $$;
 
-CREATE DATABASE comment;
-GRANT ALL PRIVILEGES ON DATABASE users TO user-manager;
+CREATE DATABASE users;
+GRANT ALL PRIVILEGES ON DATABASE users TO manager;
 
-\c comment;
+\c users;
 
 CREATE SCHEMA users;

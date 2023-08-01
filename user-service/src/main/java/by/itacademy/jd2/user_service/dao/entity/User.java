@@ -36,8 +36,8 @@ public class User implements UserDetails {
     @Column(name = "dt_update")
     private LocalDateTime updateDate;
 
-    @Column(name = "mail")
-    private String mail;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "fio")
     private String fio;
@@ -60,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return mail;
+        return email;
     }
 
     @Override

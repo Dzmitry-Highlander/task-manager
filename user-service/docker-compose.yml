@@ -12,16 +12,16 @@ services:
       dockerfile: db.Dockerfile
     restart: unless-stopped
     environment:
-      POSTGRES_USER: users-manager
-      POSTGRES_PASSWORD: users-manager
+      POSTGRES_USER: manager
+      POSTGRES_PASSWORD: manager
 
   pg_db:
     image: dpage/pgadmin4:7.4
     container_name: pgadmin
     restart: unless-stopped
     environment:
-      PGADMIN_DEFAULT_EMAIL: users-manager@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: users-manager
+      PGADMIN_DEFAULT_EMAIL: manager@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: manager
     volumes:
       - ./var/pgdata:/var/lib/postgresql/data
     ports:

@@ -13,7 +13,7 @@ public class UserToUserDTOConverter implements Converter<User, UserDTO> {
                 .id(from.getId())
                 .createDate(from.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
                 .updateDate(from.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
-                .mail(from.getMail())
+                .email(from.getEmail())
                 .fio(from.getFio())
                 .role(from.getRole())
                 .status(from.getStatus())

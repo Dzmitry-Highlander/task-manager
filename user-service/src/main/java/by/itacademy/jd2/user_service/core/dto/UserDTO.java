@@ -11,7 +11,7 @@ public class UserDTO {
     private UUID id;
     private Long createDate;
     private Long updateDate;
-    private String mail;
+    private String email;
     private String fio;
     private EUserRole role;
     private EUserStatus status;

@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://web_db:5432/comment?ApplicationName=users-app
-    username: users-manager
-    password: users-manager
+    url: jdbc:postgresql://web_db:5432/users?ApplicationName=users-app
+    username: manager
+    password: manager
     hikari:
       maximum-pool-size: 6
       minimum-idle: 3
@@ -11,6 +11,8 @@ spring:
     check-template-location: false
   jpa:
     open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
 
 server:
   port: 80

@@ -20,7 +20,7 @@ public class UserService implements IUserService {
 
     @Override
     public User create(UserCreateDTO item) {
-        userDao.findByEmail(item.getMail()).ifPresent(e -> {
+        userDao.findByEmail(item.getEmail()).ifPresent(e -> {
             //TODO customException
             throw new RuntimeException("Email has been already taken!");
         });
