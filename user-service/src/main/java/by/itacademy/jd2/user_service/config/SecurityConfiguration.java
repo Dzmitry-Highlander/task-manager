@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,9 +30,14 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v1/auth/**")
                                 .permitAll()
                                 .anyRequest()
-                                .authenticated())
+                                .authenticated()
+                )
+                .oauth2ResourceServer((oauth2) -> oauth2
+                .jwt(Customizer.withDefaults())
+                )
                 .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authenticationProvider(authenticationProvider)
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling
@@ -39,8 +45,8 @@ public class SecurityConfiguration {
                                     response.setStatus(
                                             HttpServletResponse.SC_UNAUTHORIZED
                                     );
-                                }
-                                ).accessDeniedHandler((request, response, ex) -> {
+                                })
+                                .accessDeniedHandler((request, response, ex) -> {
                                     response.setStatus(
                                             HttpServletResponse.SC_FORBIDDEN
                                     );
