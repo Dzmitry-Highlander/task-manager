@@ -55,4 +55,9 @@ public class AuthenticationService implements IAuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
+    @Override
+    public Object confirm(Integer code, String email) {
+        return null;
+    }
 }
