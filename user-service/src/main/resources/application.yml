@@ -19,3 +19,5 @@ server:
 
 jwt:
   key: 1e9068186b10235bbd158a95e046e7a5edabf79725cacdfd48241d604fdeb3e4
+
+email: google@gmail.com

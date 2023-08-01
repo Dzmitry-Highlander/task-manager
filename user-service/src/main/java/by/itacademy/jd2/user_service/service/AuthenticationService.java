@@ -7,6 +7,7 @@ import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Response;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +38,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponseDTO authenticate(UserLoginDTO request) {
+    public AuthenticationResponseDTO login(UserLoginDTO request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -53,5 +54,9 @@ public class AuthenticationService {
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public int confirm(String token, String email) {
+        return Response.SC_OK;
     }
 }
