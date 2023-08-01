@@ -8,10 +8,12 @@ import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
+import by.itacademy.jd2.user_service.service.exception.AuthException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class AuthenticationService implements IAuthenticationService {
         if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
             userRepository.save(user);
         } else {
-            throw new IllegalStateException("Such user exists!");
+            throw new AuthException("Such user exists!");
         }
 
         var jwtToken = jwtService.generateToken(user);
@@ -50,15 +52,19 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     public AuthenticationResponseDTO login(UserLoginDTO request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (AuthenticationException ex) {
+            throw new AuthException("Email or password is incorrect");
+        }
 
         var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("No such email!"));
+                .orElseThrow(() -> new AuthException("No such email registered!"));
 
         var jwtToken = jwtService.generateToken(user);
 
@@ -70,7 +76,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Transactional
     public String verification(String mail) {
         Optional<User> userOptional = userRepository.findByEmail(mail);
-        User entity = userOptional.orElseThrow(() -> new EntityNotFoundException("No such Entity!"));
+        User entity = userOptional.orElseThrow(() -> new AuthException("No such Entity!"));
 
         entity.setStatus(EUserStatus.ACTIVATED);
 

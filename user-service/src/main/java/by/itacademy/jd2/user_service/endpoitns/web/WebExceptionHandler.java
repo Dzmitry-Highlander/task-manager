@@ -1,5 +1,6 @@
 package by.itacademy.jd2.user_service.endpoitns.web;
 
+import by.itacademy.jd2.user_service.service.exception.AuthException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class WebExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value = {IllegalStateException.class})
-    protected ResponseEntity<Object> handleIllegalStateConflict(
+    @ExceptionHandler(value = {AuthException.class})
+    protected ResponseEntity<Object> handleAuthenticationConflict(
             RuntimeException exception, WebRequest request
     ) {
         String bodyOfResponse = exception.getMessage();
