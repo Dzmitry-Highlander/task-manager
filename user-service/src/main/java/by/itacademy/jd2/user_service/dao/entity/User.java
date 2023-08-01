@@ -22,11 +22,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "users", schema = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
-    private UUID id;
+    private UUID uuid;
 
     @CreationTimestamp
     @Column(name = "dt_create")

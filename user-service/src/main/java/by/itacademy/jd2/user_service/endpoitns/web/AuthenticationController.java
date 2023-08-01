@@ -25,7 +25,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/registration/confirm")
-    public ResponseEntity<?> confirm(@RequestParam("code") String code, @RequestParam("email") String email) {
+    public ResponseEntity<?> confirm(@RequestParam("code") Integer code, @RequestParam("email") String email) {
         return ResponseEntity.ok(this.authenticationService.confirm(code, email));
     }
 }

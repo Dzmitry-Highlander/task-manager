@@ -6,8 +6,8 @@ import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
+import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.connector.Response;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -54,9 +54,5 @@ public class AuthenticationService {
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
                 .build();
-    }
-
-    public int confirm(String token, String email) {
-        return Response.SC_OK;
     }
 }

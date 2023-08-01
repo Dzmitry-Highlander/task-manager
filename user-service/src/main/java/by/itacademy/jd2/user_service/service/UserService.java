@@ -43,7 +43,7 @@ public class UserService implements IUserService {
     @Override
     public User update(UUID uuid, Long version, UserCreateDTO item) {
         User user = Objects.requireNonNull(conversionService.convert(item, User.class));
-        User currentUser = this.read(Objects.requireNonNull(user.getId()));
+        User currentUser = this.read(Objects.requireNonNull(user.getUuid()));
 
         user.setCreateDate(currentUser.getCreateDate());
 

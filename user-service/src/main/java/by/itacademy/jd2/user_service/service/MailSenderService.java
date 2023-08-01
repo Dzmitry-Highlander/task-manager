@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 public class MailSenderService implements IMailSenderService {
     private final MailProperty property;
     private final JavaMailSender mailSender;
-    private final ActivatorGeneratorService generatorService;
 
     @Override
     @Async
     public void send(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
+        int code = 1;
 
         mailMessage.setFrom(property.getEmail());
         mailMessage.setTo(user.getEmail());
-        mailMessage.setText("Your code: " + generatorService.generate(user.getEmail()).getCode());
+        mailMessage.setText("Your code: " + code);
 
         mailSender.send(mailMessage);
     }
