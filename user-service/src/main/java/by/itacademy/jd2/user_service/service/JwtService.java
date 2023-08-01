@@ -4,10 +4,13 @@ import by.itacademy.jd2.user_service.config.properties.JWTProperty;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +43,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)))
-                .signWith(property.getKey(), SignatureAlgorithm.ES256)
+                .signWith(getKeySigningKey(), SignatureAlgorithm.ES256)
                 .compact();
     }
 
@@ -61,9 +64,15 @@ public class JwtService {
     private Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
-                .setSigningKey(property.getKey())
+                .setSigningKey(getKeySigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public Key getKeySigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(property.getKey());
+
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
