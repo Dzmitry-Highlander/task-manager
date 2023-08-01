@@ -1,4 +1,4 @@
-package by.itacademy.jd2.user_service.service.filter;
+package by.itacademy.jd2.user_service.endpoitns.filter;
 
 import by.itacademy.jd2.user_service.service.JwtService;
 import jakarta.servlet.FilterChain;

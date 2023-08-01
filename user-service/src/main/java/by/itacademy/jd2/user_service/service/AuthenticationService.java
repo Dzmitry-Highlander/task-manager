@@ -23,7 +23,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .fio(request.getFio())
-                .email(request.getMail())
+                .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(EUserRole.ROLE_USER)
                 .build();
@@ -40,12 +40,12 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getMail(),
+                        request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        var user = userRepository.findByEmail(request.getMail())
+        var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(); //TODO handle the Exception;
 
         var jwtToken = jwtService.generateToken(user);
