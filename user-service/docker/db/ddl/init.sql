@@ -1,0 +1,19 @@
+DO $$
+BEGIN
+CREATE ROLE users-manager WITH
+    LOGIN
+    SUPERUSER
+    INHERIT
+    CREATEDB
+    CREATEROLE
+    REPLICATION;
+EXCEPTION WHEN duplicate_object THEN RAISE NOTICE '%, skipping', SQLERRM USING ERRCODE = SQLSTATE;
+END
+$$;
+
+CREATE DATABASE comment;
+GRANT ALL PRIVILEGES ON DATABASE users TO user-manager;
+
+\c comment;
+
+CREATE SCHEMA users;
