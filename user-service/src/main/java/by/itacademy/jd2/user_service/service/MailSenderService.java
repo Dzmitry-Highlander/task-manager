@@ -1,7 +1,6 @@
 package by.itacademy.jd2.user_service.service;
 
 import by.itacademy.jd2.user_service.config.properties.MailProperty;
-import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;

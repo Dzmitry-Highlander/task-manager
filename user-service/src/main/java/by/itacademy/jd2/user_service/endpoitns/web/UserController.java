@@ -4,7 +4,6 @@ import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
