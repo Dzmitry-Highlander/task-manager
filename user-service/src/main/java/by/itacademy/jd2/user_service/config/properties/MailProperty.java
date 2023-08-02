@@ -9,5 +9,4 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "email")
 public class MailProperty {
     private String mail;
-    private String link;
 }

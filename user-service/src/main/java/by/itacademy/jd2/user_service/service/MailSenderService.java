@@ -41,6 +41,7 @@ public class MailSenderService implements IMailSenderService {
     @Override
     public String buildEmail(UserDTO userDTO) {
         ActivatorDTO activator = codeGeneratorService.generate(userDTO);
+        String code = String.valueOf(activator.getCode());
 
         return """
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -184,7 +185,7 @@ public class MailSenderService implements IMailSenderService {
                                                                             <center style='color:#ffffff; font-family:Poppins, sans-serif; font-size:20px; font-weight:700; line-height:20px; mso-text-raise:1px'>%s</center>
                                                                          </v:roundrect>
                                                                       </a>
-                                                                      <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border" style="border-style:solid;border-color:#2CB543;background:#660099;border-width:0px;display:inline-block;border-radius:30px;width:auto;mso-hide:all"><a href="" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:15px 35px 15px 35px;display:inline-block;background:#660099;border-radius:30px;font-family:Poppins, sans-serif;font-weight:bold;font-style:normal;line-height:24px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #660099">CODE</a></span><!--<![endif]-->
+                                                                      <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border" style="border-style:solid;border-color:#2CB543;background:#660099;border-width:0px;display:inline-block;border-radius:30px;width:auto;mso-hide:all"><a href="" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:15px 35px 15px 35px;display:inline-block;background:#660099;border-radius:30px;font-family:Poppins, sans-serif;font-weight:bold;font-style:normal;line-height:24px;width:auto;text-align:center;mso-padding-alt:0;mso-border-alt:10px solid #660099">%s</a></span><!--<![endif]-->
                                                                    </td>
                                                                 </tr>
                                                              </table>
@@ -220,6 +221,6 @@ public class MailSenderService implements IMailSenderService {
                       </div>
                    </body>
                 </html>
-                """.formatted(activator.getCode());
+                """.formatted(code, code);
     }
 }
