@@ -19,9 +19,9 @@ import java.util.UUID;
 @Table(name = "activator", schema = "users")
 public class Activator implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "activator_id")
-    private UUID id;
+    private Long id;
 
     @CreationTimestamp
     @Column(name = "dt_create")
