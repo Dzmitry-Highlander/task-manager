@@ -3,10 +3,12 @@ package by.itacademy.jd2.user_service.service;
 import by.itacademy.jd2.user_service.core.dto.ActivatorDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.service.api.ICodeGeneratorService;
+import org.springframework.stereotype.Service;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class CodeGeneratorService implements ICodeGeneratorService {
     @Override
     public ActivatorDTO generate(UserDTO userDTO) {
