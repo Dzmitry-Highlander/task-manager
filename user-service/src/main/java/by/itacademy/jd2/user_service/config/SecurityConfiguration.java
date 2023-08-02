@@ -41,12 +41,16 @@ public class SecurityConfiguration {
                 .authenticationProvider(authenticationProvider)
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling
-                                .authenticationEntryPoint((request, response, ex) -> response.setStatus(
-                                        HttpServletResponse.SC_UNAUTHORIZED
-                                ))
-                                .accessDeniedHandler((request, response, ex) -> response.setStatus(
-                                        HttpServletResponse.SC_FORBIDDEN
-                                ))
+                                .authenticationEntryPoint((request, response, ex) -> {
+                                            response.setStatus(
+                                                    HttpServletResponse.SC_UNAUTHORIZED
+                                            );
+                                        }
+                                ).accessDeniedHandler((request, response, ex) -> {
+                                    response.setStatus(
+                                            HttpServletResponse.SC_FORBIDDEN
+                                    );
+                                })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
