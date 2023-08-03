@@ -6,7 +6,6 @@ import org.springframework.core.convert.converter.Converter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.TimeZone;
 
 public class ActivatorDTOtoActivatorConverter implements Converter<ActivatorDTO, Activator> {

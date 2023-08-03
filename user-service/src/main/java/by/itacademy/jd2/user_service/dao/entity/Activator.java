@@ -31,7 +31,7 @@ public class Activator implements Serializable {
     private String email;
 
     @Column(name = "code")
-    private Integer code;
+    private String code;
 
     @Column(name = "dt_expiration")
     private LocalDateTime expirationDate;

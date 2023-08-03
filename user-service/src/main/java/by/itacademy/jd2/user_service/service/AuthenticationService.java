@@ -4,7 +4,9 @@ import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
+import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
+import by.itacademy.jd2.user_service.dao.entity.Activator;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
@@ -17,15 +19,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
-    private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final IUserRepository userRepository;
+    private final IActivatorRepository activatorRepository;
 
     public AuthenticationResponseDTO register(UserRegistrationDTO request) {
         var user = User.builder()
@@ -58,7 +62,7 @@ public class AuthenticationService implements IAuthenticationService {
                     )
             );
         } catch (AuthenticationException ex) {
-            throw new AuthException("Email or password is incorrect");
+            throw new AuthException("Email or password is incorrect!");
         }
 
         var user = userRepository.findByEmail(request.getEmail())
@@ -72,14 +76,20 @@ public class AuthenticationService implements IAuthenticationService {
     }
 
     @Transactional
-    public String verification(String mail) {
+    public String verification(String code, String mail) {
         Optional<User> userOptional = userRepository.findByEmail(mail);
-        User entity = userOptional.orElseThrow(() -> new AuthException("No such Entity!"));
+        Optional<Activator> activatorOptional = activatorRepository.findByEmail(mail);
+        User user = userOptional
+                .orElseThrow(() -> new AuthException("Verification Error!"));
+        Activator activator = activatorOptional
+                .orElseThrow(() -> new AuthException("Verification Error!"));
 
-        entity.setStatus(EUserStatus.ACTIVATED);
+        if (Objects.equals(code, activator.getCode())) {
+            user.setStatus(EUserStatus.ACTIVATED);
 
-        userRepository.save(entity);
+            userRepository.save(user);
+        }
 
-        return "confirmed";
+        return "Confirmed";
     }
 }
