@@ -46,21 +46,23 @@ public class AuthenticationService implements IAuthenticationService {
 
         if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
             userRepository.save(user);
+
+            var code = CodeGenerator.generate();
+
+            ActivatorCreateDTO item = ActivatorCreateDTO.builder()
+                    .email(request.getEmail())
+                    .code(code)
+                    .createDate(System.currentTimeMillis())
+                    .expirationDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30))
+                    .build();
+
+            mailSenderService.send(code, request.getEmail());
+            activatorRepository.save(Objects.requireNonNull(conversionService.convert(item, Activator.class)));
         } else {
             throw new AuthException("Such user exists!");
         }
 
-        var code = CodeGenerator.generate();
         var jwtToken = jwtService.generateToken(user);
-        ActivatorCreateDTO item = ActivatorCreateDTO.builder()
-                .email(request.getEmail())
-                .code(code)
-                .createDate(System.currentTimeMillis())
-                .expirationDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30))
-                .build();
-
-        mailSenderService.send(code, request.getEmail());
-        activatorRepository.save(Objects.requireNonNull(conversionService.convert(item, Activator.class)));
 
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
