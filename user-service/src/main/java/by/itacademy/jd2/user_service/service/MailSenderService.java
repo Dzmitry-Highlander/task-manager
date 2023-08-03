@@ -49,9 +49,8 @@ public class MailSenderService implements IMailSenderService {
     public String buildEmail(UserDTO userDTO) {
         ActivatorDTO activator = codeGeneratorService.generate(userDTO);
         String code = String.valueOf(activator.getCode());
-        Activator test = conversionService.convert(activator, Activator.class);
 
-        activatorRepository.save(Objects.requireNonNull(test));
+        activatorRepository.save(Objects.requireNonNull(conversionService.convert(activator, Activator.class)));
 
         return """
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

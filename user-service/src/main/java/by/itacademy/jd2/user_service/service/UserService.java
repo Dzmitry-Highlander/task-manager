@@ -15,27 +15,27 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
-    private final IUserRepository userDao;
+    private final IUserRepository userRepository;
     private final ConversionService conversionService;
 
     @Override
     public User create(UserCreateDTO item) {
-        userDao.findByEmail(item.getEmail()).ifPresent(e -> {
+        userRepository.findByEmail(item.getEmail()).ifPresent(e -> {
             //TODO customException
             throw new RuntimeException("Email has been already taken!");
         });
 
-        return userDao.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
+        return userRepository.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
     }
 
     @Override
     public List<User> read() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User read(UUID id) {
-        return userDao.findById(id)
+        return userRepository.findById(id)
                 //TODO customException
                 .orElseThrow(() -> new IllegalArgumentException("User is not found!"));
     }
@@ -48,7 +48,7 @@ public class UserService implements IUserService {
         user.setCreateDate(currentUser.getCreateDate());
 
         if (user.getUpdateDate().isEqual(currentUser.getUpdateDate())) {
-            return userDao.save(user);
+            return userRepository.save(user);
         } else {
             //TODO customException
             throw new RuntimeException("Versions don't match!");
