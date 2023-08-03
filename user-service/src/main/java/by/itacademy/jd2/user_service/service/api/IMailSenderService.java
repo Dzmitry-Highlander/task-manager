@@ -1,9 +1,7 @@
 package by.itacademy.jd2.user_service.service.api;
 
-import by.itacademy.jd2.user_service.core.dto.UserDTO;
-
 public interface IMailSenderService {
-    void send(UserDTO userDTO);
+    void send(String code, String email);
 
-    String buildEmail(UserDTO userDTO);
+    String buildEmail(String code);
 }

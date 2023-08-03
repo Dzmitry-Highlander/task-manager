@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ActivatorDTO {
     private UUID id;
-    private Integer code;
+    private String code;
     private String email;
     private Long createDate;
     private Long expirationDate;

@@ -30,6 +30,8 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/api/v1/users/login")
                                 .permitAll()
+                                .requestMatchers("/api/v1/users/registration/confirm")
+                                .permitAll()
                                 .requestMatchers("/api/v1/demo")
                                 .permitAll()
                                 .anyRequest()

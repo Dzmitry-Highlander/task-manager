@@ -3,7 +3,9 @@ package by.itacademy.jd2.user_service.endpoitns.web;
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
-import by.itacademy.jd2.user_service.service.AuthenticationService;
+import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
+import by.itacademy.jd2.user_service.service.api.IMailSenderService;
+import by.itacademy.jd2.user_service.service.util.CodeGenerator;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +16,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class AuthenticationController {
-    private final AuthenticationService authenticationService;
+    private final IAuthenticationService authenticationService;
+    private final IMailSenderService mailSenderService;
 
     @PostMapping("/registration")
     public ResponseEntity<AuthenticationResponseDTO> register(
             @RequestBody @Valid UserRegistrationDTO request
     ) {
+        mailSenderService.send(CodeGenerator.generate(), request.getEmail());
+
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
@@ -32,9 +37,9 @@ public class AuthenticationController {
 
     @GetMapping("/registration/confirm")
     public ResponseEntity<?> confirm(
-            @RequestParam("code") Integer code,
+            @RequestParam("code") String code,
             @RequestParam("email") @Email String email
     ) {
-        return ResponseEntity.ok(this.authenticationService.verification(email));
+        return ResponseEntity.ok(this.authenticationService.verification(code, email));
     }
 }

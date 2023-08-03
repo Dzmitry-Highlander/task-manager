@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.endpoitns.web;
 
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
-import by.itacademy.jd2.user_service.service.MailSenderService;
+import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DemoController {
     private final ConversionService conversionService;
-    private final MailSenderService mailSenderService;
+    private final IMailSenderService mailSenderService;
     private final IUserService userService;
 
     @GetMapping

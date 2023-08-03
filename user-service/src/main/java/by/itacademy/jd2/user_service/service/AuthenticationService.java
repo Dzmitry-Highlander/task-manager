@@ -1,17 +1,18 @@
 package by.itacademy.jd2.user_service.service;
 
-import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
-import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
+import by.itacademy.jd2.user_service.core.dto.*;
 import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.Activator;
 import by.itacademy.jd2.user_service.dao.entity.User;
-import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
+import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import by.itacademy.jd2.user_service.service.exception.AuthException;
+import by.itacademy.jd2.user_service.service.util.CodeGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +30,10 @@ public class AuthenticationService implements IAuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final ConversionService conversionService;
     private final IUserRepository userRepository;
     private final IActivatorRepository activatorRepository;
+    private final IMailSenderService mailSenderService;
 
     public AuthenticationResponseDTO register(UserRegistrationDTO request) {
         var user = User.builder()
@@ -46,7 +50,17 @@ public class AuthenticationService implements IAuthenticationService {
             throw new AuthException("Such user exists!");
         }
 
+        var code = CodeGenerator.generate();
         var jwtToken = jwtService.generateToken(user);
+        ActivatorCreateDTO item = ActivatorCreateDTO.builder()
+                .email(request.getEmail())
+                .code(code)
+                .createDate(System.currentTimeMillis())
+                .expirationDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30))
+                .build();
+
+        mailSenderService.send(code, request.getEmail());
+        activatorRepository.save(Objects.requireNonNull(conversionService.convert(item, Activator.class)));
 
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
@@ -90,6 +104,6 @@ public class AuthenticationService implements IAuthenticationService {
             userRepository.save(user);
         }
 
-        return "Confirmed";
+        return "Verification complete";
     }
 }

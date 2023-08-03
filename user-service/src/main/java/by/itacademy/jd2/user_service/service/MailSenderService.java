@@ -1,41 +1,31 @@
 package by.itacademy.jd2.user_service.service;
 
 import by.itacademy.jd2.user_service.config.properties.MailProperty;
-import by.itacademy.jd2.user_service.core.dto.ActivatorDTO;
-import by.itacademy.jd2.user_service.core.dto.UserDTO;
-import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
-import by.itacademy.jd2.user_service.dao.entity.Activator;
-import by.itacademy.jd2.user_service.service.api.ICodeGeneratorService;
 import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class MailSenderService implements IMailSenderService {
     private final JavaMailSender mailSender;
     private final MailProperty property;
-    private final ICodeGeneratorService codeGeneratorService;
-    private final IActivatorRepository activatorRepository;
-    private final ConversionService conversionService;
 
     @Override
     @Async
-    public void send(UserDTO userDTO) {
+    public void send(String code, String email) {
         try {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
-            helper.setText(buildEmail(userDTO), true);
-            helper.setTo(userDTO.getEmail());
+            helper.setText(buildEmail(code), true);
+            helper.setTo(email);
             helper.setSubject("Email confirmation");
             helper.setFrom(property.getMail());
 
@@ -46,11 +36,7 @@ public class MailSenderService implements IMailSenderService {
     }
 
     @Override
-    public String buildEmail(UserDTO userDTO) {
-        ActivatorDTO activator = codeGeneratorService.generate(userDTO);
-        String code = String.valueOf(activator.getCode());
-
-        activatorRepository.save(Objects.requireNonNull(conversionService.convert(activator, Activator.class)));
+    public String buildEmail(String code) {
 
         return """
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -230,6 +216,6 @@ public class MailSenderService implements IMailSenderService {
                       </div>
                    </body>
                 </html>
-                """.formatted(code, code);
+                """.formatted(code, code); //TODO (code, code) -> (code)
     }
 }
