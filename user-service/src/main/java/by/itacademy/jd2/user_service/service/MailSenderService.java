@@ -3,15 +3,20 @@ package by.itacademy.jd2.user_service.service;
 import by.itacademy.jd2.user_service.config.properties.MailProperty;
 import by.itacademy.jd2.user_service.core.dto.ActivatorDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
+import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
+import by.itacademy.jd2.user_service.dao.entity.Activator;
 import by.itacademy.jd2.user_service.service.api.ICodeGeneratorService;
 import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +24,8 @@ public class MailSenderService implements IMailSenderService {
     private final JavaMailSender mailSender;
     private final MailProperty property;
     private final ICodeGeneratorService codeGeneratorService;
+    private final IActivatorRepository activatorRepository;
+    private final ConversionService conversionService;
 
     @Override
     @Async
@@ -42,6 +49,9 @@ public class MailSenderService implements IMailSenderService {
     public String buildEmail(UserDTO userDTO) {
         ActivatorDTO activator = codeGeneratorService.generate(userDTO);
         String code = String.valueOf(activator.getCode());
+        Activator test = conversionService.convert(activator, Activator.class);
+
+        activatorRepository.save(Objects.requireNonNull(test));
 
         return """
                 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

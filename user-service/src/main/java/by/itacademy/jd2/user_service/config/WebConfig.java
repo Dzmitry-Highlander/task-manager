@@ -1,5 +1,6 @@
 package by.itacademy.jd2.user_service.config;
 
+import by.itacademy.jd2.user_service.service.converter.ActivatorToActivatorDTOConverter;
 import by.itacademy.jd2.user_service.service.converter.UserToUserDTOConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -23,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new UserToUserDTOConverter());
+        registry.addConverter(new ActivatorToActivatorDTOConverter());
     }
 
     @Override

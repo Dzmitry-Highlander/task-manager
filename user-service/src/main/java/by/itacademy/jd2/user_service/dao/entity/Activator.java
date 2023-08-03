@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -18,9 +19,9 @@ import java.time.LocalDateTime;
 @Table(name = "activator", schema = "users")
 public class Activator implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "activator_id")
-    private Long id;
+    private UUID id;
 
     @CreationTimestamp
     @Column(name = "dt_create")

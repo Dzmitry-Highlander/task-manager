@@ -8,15 +8,15 @@ import java.time.ZoneId;
 
 public class UserToUserDTOConverter implements Converter<User, UserDTO> {
     @Override
-    public UserDTO convert(User from) {
+    public UserDTO convert(User source) {
         return UserDTO.builder()
-                .id(from.getUuid())
-                .createDate(from.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
-                .updateDate(from.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
-                .email(from.getEmail())
-                .fio(from.getFio())
-                .role(from.getRole())
-                .status(from.getStatus())
+                .id(source.getUuid())
+                .createDate(source.getCreateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .updateDate(source.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
+                .email(source.getEmail())
+                .fio(source.getFio())
+                .role(source.getRole())
+                .status(source.getStatus())
                 .build();
     }
 }

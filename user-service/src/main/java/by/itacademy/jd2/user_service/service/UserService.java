@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@Service //TODO спросить что это за аннотация?
+@Service
 @AllArgsConstructor
 public class UserService implements IUserService {
     private final IUserRepository userDao;
