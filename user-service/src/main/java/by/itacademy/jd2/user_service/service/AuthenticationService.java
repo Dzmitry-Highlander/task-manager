@@ -16,6 +16,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final IActivatorRepository activatorRepository;
     private final IMailSenderService mailSenderService;
 
+    @Override
     public AuthenticationResponseDTO register(UserRegistrationDTO request) {
         var user = User.builder()
                 .fio(request.getFio())
@@ -69,6 +71,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    @Override
     public AuthenticationResponseDTO login(UserLoginDTO request) {
         try {
             authenticationManager.authenticate(
@@ -91,6 +94,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    @Override
     @Transactional
     public String verification(String code, String mail) {
         Optional<User> userOptional = userRepository.findByEmail(mail);
@@ -104,8 +108,15 @@ public class AuthenticationService implements IAuthenticationService {
             user.setStatus(EUserStatus.ACTIVATED);
 
             userRepository.save(user);
+
+            return "Verification complete";
         }
 
-        return "Verification complete";
+        return "Verification failed";
+    }
+
+    @Override
+    public UserDTO me(String email) {
+        return conversionService.convert(userRepository.findByEmail(email), UserDTO.class);
     }
 }

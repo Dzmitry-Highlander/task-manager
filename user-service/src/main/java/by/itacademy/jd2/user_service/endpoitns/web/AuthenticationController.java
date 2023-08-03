@@ -1,13 +1,17 @@
 package by.itacademy.jd2.user_service.endpoitns.web;
 
+import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
+import by.itacademy.jd2.user_service.service.api.IUserHolder;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
+    private final IUserHolder userHolder;
 
     @PostMapping("/registration")
     public ResponseEntity<AuthenticationResponseDTO> register(
@@ -36,5 +41,12 @@ public class AuthenticationController {
             @RequestParam("email") @Email String email
     ) {
         return ResponseEntity.ok(this.authenticationService.verification(code, email));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> me() {
+        UserDetails userDetails = userHolder.getUser();
+
+        return ResponseEntity.ok(this.authenticationService.me(userDetails.getUsername()));
     }
 }

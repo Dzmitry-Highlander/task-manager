@@ -13,6 +13,7 @@ public class ActivatorCreateDTOtoActivatorConverter implements Converter<Activat
     public Activator convert(ActivatorCreateDTO source) {
         return Activator.builder()
                 .email(source.getEmail())
+                .code(source.getCode())
                 .createDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(source.getCreateDate()),
                         TimeZone.getDefault().toZoneId()))
                 .expirationDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(source.getExpirationDate()),
