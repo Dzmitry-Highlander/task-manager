@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class WebExceptionHandler extends ResponseEntityExceptionHandler {
+    //TODO handle all exceptions
     @ExceptionHandler(value = {AuthException.class})
     protected ResponseEntity<Object> handleAuthenticationConflict(
             RuntimeException exception, WebRequest request

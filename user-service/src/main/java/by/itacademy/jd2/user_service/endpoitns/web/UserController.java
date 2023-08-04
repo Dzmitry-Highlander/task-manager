@@ -18,6 +18,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
+    //TODO привести в порядок все return
     private final IUserService userService;
     private final ConversionService conversionService;
 
@@ -40,22 +41,22 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserDTO> post(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<?> post(@RequestBody UserCreateDTO dto) {
         User userEntity = userService.create(dto);
-        UserDTO userDTO = conversionService.convert(userEntity, UserDTO.class);
+        var user = conversionService.convert(userEntity, UserDTO.class);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity<UserDTO> update(
+    public ResponseEntity<?> update(
             @PathVariable UUID uuid,
             @PathVariable("dt_update") Long updateDate,
             @RequestBody UserCreateDTO userCreateDTO) {
         //TODO Converter или Formatter
         User updatedUser = userService.update(uuid, updateDate, userCreateDTO);
-        UserDTO userDTO = this.conversionService.convert(updatedUser, UserDTO.class);
+        var user = this.conversionService.convert(updatedUser, UserDTO.class);
 
-        return new ResponseEntity<>(userDTO, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }
 }

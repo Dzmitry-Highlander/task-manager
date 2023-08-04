@@ -18,6 +18,7 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
+    //TODO static exception messages
     private final IUserRepository userRepository;
     private final ConversionService conversionService;
 
@@ -65,6 +66,7 @@ public class UserService implements IUserService {
 
         return conversionService.convert(
                 userOptional.orElseThrow(
+                        //TODO customException
                         () -> new AuthException("Email not found!")), UserDTO.class
         );
     }

@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
+                                //TODO настроить все согласно OpenApi
                                 .requestMatchers("/api/v1/users/registration")
                                 .permitAll()
                                 .requestMatchers("/api/v1/users/login")
