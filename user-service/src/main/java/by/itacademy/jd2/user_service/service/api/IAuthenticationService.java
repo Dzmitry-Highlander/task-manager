@@ -4,6 +4,7 @@ import by.itacademy.jd2.user_service.core.dto.AuthenticationResponseDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
+import by.itacademy.jd2.user_service.dao.entity.User;
 
 public interface IAuthenticationService {
     void register(UserRegistrationDTO request);

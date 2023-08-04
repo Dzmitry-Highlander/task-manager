@@ -24,8 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
-public class
-AuthenticationService implements IAuthenticationService {
+public class AuthenticationService implements IAuthenticationService {
     private static final String EMAIL_OR_PASSWORD_ERROR = "Вы ввели неверный email или пароль";
     private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
     private static final String VERIFICATION_FAILED = "Сервер не смог корректно обработать запрос. Пожалуйста " +
@@ -103,7 +102,7 @@ AuthenticationService implements IAuthenticationService {
     public String verification(String code, String email) {
         Activator activator = activatorRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException(VERIFICATION_FAILED));
-        UserDTO user = userService.findByEmail(email);
+        User user = userService.findByEmail(email);
 
         if (Objects.equals(code, activator.getCode())) {
             UserCreateDTO userUpdate = UserCreateDTO.builder()
@@ -111,7 +110,7 @@ AuthenticationService implements IAuthenticationService {
                     .build();
 
             //TODO отдельный метод на активацию пользователя
-            userService.update(user.getId(), user.getUpdateDate(), userUpdate);
+            userService.activate(userUpdate);
 
             return VERIFICATION_SUCCESS;
         } else {
@@ -121,6 +120,7 @@ AuthenticationService implements IAuthenticationService {
 
     @Override
     public UserDTO me() {
-        return userService.findByEmail(userHolder.getUser().getUsername());
+        return conversionService.convert(
+                userService.findByEmail(userHolder.getUser().getUsername()), UserDTO.class);
     }
 }

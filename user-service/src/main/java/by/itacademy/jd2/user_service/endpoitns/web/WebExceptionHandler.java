@@ -1,6 +1,5 @@
 package by.itacademy.jd2.user_service.endpoitns.web;
 
-import by.itacademy.jd2.user_service.service.exception.IllegalStateException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
