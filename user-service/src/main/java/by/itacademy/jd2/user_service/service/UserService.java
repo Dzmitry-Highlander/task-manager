@@ -12,8 +12,12 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.UUID;
 
 @Service
@@ -56,7 +60,7 @@ public class UserService implements IUserService {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_ERROR));
 
-        if (!version.equals(user.getUpdateDate())) {
+        if (!version.equals(user.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())) {
             throw new EntityNotFoundException(VERSIONS_NOT_MATCH_ERROR);
         }
 
