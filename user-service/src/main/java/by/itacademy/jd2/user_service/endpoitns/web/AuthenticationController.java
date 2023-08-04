@@ -3,8 +3,6 @@ package by.itacademy.jd2.user_service.endpoitns.web;
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
-import by.itacademy.jd2.user_service.service.api.IUserHolder;
-import by.itacademy.jd2.user_service.service.api.IUserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -13,21 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @AllArgsConstructor
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
-    private final IUserService userService;
-    private final IUserHolder userHolder;
 
     @PostMapping("/registration")
-    //TODO нужно ли отправлять token в ответ?
     public ResponseEntity<?> register(
             @RequestBody @Valid UserRegistrationDTO request
     ) {
-        var response = authenticationService.register(request);
+        authenticationService.register(request);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -51,8 +46,7 @@ public class AuthenticationController {
 
     @GetMapping("/me")
     public ResponseEntity<?> me() {
-        var response = userService
-                .findByEmail(userHolder.getUser().getUsername());
+        var response = authenticationService.me();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
