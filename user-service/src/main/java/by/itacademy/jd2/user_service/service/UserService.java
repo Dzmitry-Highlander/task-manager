@@ -6,18 +6,19 @@ import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import by.itacademy.jd2.user_service.service.exception.AuthException;
+import by.itacademy.jd2.user_service.service.exception.EmailAlreadyTakenException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class UserService implements IUserService {
+    private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
     //TODO static exception messages
     private final IUserRepository userRepository;
     private final ConversionService conversionService;
@@ -25,8 +26,7 @@ public class UserService implements IUserService {
     @Override
     public User create(UserCreateDTO item) {
         userRepository.findByEmail(item.getEmail()).ifPresent(e -> {
-            //TODO customException
-            throw new RuntimeException("Email has been already taken!");
+            throw new EmailAlreadyTakenException(USER_EXISTS_ERROR);
         });
 
         return userRepository.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
@@ -46,9 +46,12 @@ public class UserService implements IUserService {
 
     @Override
     public User update(UUID uuid, Long version, UserCreateDTO item) {
-        User user = Objects.requireNonNull(conversionService.convert(item, User.class));
-        User currentUser = this.read(Objects.requireNonNull(user.getUuid()));
+        User user = conversionService.convert(item, User.class);
+        User currentUser = this.read(uuid);
 
+        assert user != null;
+        user.setUpdateDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()
+        ), TimeZone.getDefault().toZoneId()));
         user.setCreateDate(currentUser.getCreateDate());
 
         if (user.getUpdateDate().isEqual(currentUser.getUpdateDate())) {

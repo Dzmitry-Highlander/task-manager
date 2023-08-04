@@ -16,16 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/users")
 @AllArgsConstructor
 public class AuthenticationController {
-    private static final String USER_REGISTERED = "Пользователь зарегистрирован";
     private final IAuthenticationService authenticationService;
     private final IUserService userService;
     private final IUserHolder userHolder;
 
     @PostMapping("/registration")
+    //TODO нужно ли отправлять token в ответ?
     public ResponseEntity<?> register(
             @RequestBody @Valid UserRegistrationDTO request
     ) {
-        return new ResponseEntity<>(USER_REGISTERED, HttpStatus.CREATED);
+        var response = authenticationService.register(request);
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

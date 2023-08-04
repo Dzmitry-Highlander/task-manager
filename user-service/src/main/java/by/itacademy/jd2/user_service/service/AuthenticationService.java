@@ -10,6 +10,7 @@ import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
 import by.itacademy.jd2.user_service.service.api.IMailSenderService;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import by.itacademy.jd2.user_service.service.exception.AuthException;
+import by.itacademy.jd2.user_service.service.exception.EmailAlreadyTakenException;
 import by.itacademy.jd2.user_service.service.util.CodeGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
@@ -27,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class
 AuthenticationService implements IAuthenticationService {
-    private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
     private static final String EMAIL_OR_PASSWORD_ERROR = "Вы ввели неверный email или пароль";
     private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
     private static final String VERIFICATION_FAILED = "Сервер не смог корректно обработать запрос. Пожалуйста " +
@@ -42,7 +42,8 @@ AuthenticationService implements IAuthenticationService {
     private final IMailSenderService mailSenderService;
 
     @Override
-    public AuthenticationResponseDTO register(UserRegistrationDTO request) {
+    public AuthenticationResponseDTO register(UserRegistrationDTO request)   {
+        var code = CodeGenerator.generate();
         var user = UserCreateDTO.builder()
                 .fio(request.getFio())
                 .email(request.getEmail())
@@ -50,22 +51,16 @@ AuthenticationService implements IAuthenticationService {
                 .role(EUserRole.ROLE_USER)
                 .status(EUserStatus.WAITING_ACTIVATION)
                 .build();
-
-        if (Objects.nonNull(userService.findByEmail(request.getEmail()))) {
-            var code = CodeGenerator.generate();
-            ActivatorCreateDTO activator = ActivatorCreateDTO.builder()
+        var activator = ActivatorCreateDTO.builder()
                     .email(request.getEmail())
                     .code(code)
                     .createDate(System.currentTimeMillis())
                     .expirationDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30))
                     .build();
 
-            userService.create(user);
-            activatorRepository.save(Objects.requireNonNull(conversionService.convert(activator, Activator.class)));
-            mailSenderService.send(code, request.getEmail());
-        } else {
-            throw new AuthException(USER_EXISTS_ERROR);
-        }
+        userService.create(user);
+        activatorRepository.save(Objects.requireNonNull(conversionService.convert(activator, Activator.class)));
+        mailSenderService.send(code, request.getEmail());
 
         var jwtToken = jwtService.generateToken(conversionService.convert(user, User.class));
 
