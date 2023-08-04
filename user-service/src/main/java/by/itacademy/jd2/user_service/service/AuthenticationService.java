@@ -4,11 +4,11 @@ import by.itacademy.jd2.user_service.core.dto.*;
 import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
-import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.Activator;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
 import by.itacademy.jd2.user_service.service.api.IMailSenderService;
+import by.itacademy.jd2.user_service.service.api.IUserService;
 import by.itacademy.jd2.user_service.service.exception.AuthException;
 import by.itacademy.jd2.user_service.service.util.CodeGenerator;
 import lombok.RequiredArgsConstructor;
@@ -21,24 +21,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class
 AuthenticationService implements IAuthenticationService {
+    private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
+    private static final String EMAIL_OR_PASSWORD_ERROR = "Вы ввели неверный email или пароль";
+    private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
+    private static final String VERIFICATION_FAILED = "Сервер не смог корректно обработать запрос. Пожалуйста " +
+            "обратитесь к администратору";
+
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ConversionService conversionService;
-    private final IUserRepository userRepository;
+    private final IUserService userService;
     private final IActivatorRepository activatorRepository;
     private final IMailSenderService mailSenderService;
 
     @Override
     public AuthenticationResponseDTO register(UserRegistrationDTO request) {
-        var user = User.builder()
+        var user = UserCreateDTO.builder()
                 .fio(request.getFio())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -46,25 +51,23 @@ AuthenticationService implements IAuthenticationService {
                 .status(EUserStatus.WAITING_ACTIVATION)
                 .build();
 
-        if (userRepository.findByEmail(request.getEmail()).isEmpty()) {
-            userRepository.save(user);
-
+        if (Objects.nonNull(userService.findByEmail(request.getEmail()))) {
             var code = CodeGenerator.generate();
-
-            ActivatorCreateDTO item = ActivatorCreateDTO.builder()
+            ActivatorCreateDTO activator = ActivatorCreateDTO.builder()
                     .email(request.getEmail())
                     .code(code)
                     .createDate(System.currentTimeMillis())
                     .expirationDate(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(30))
                     .build();
 
+            userService.create(user);
+            activatorRepository.save(Objects.requireNonNull(conversionService.convert(activator, Activator.class)));
             mailSenderService.send(code, request.getEmail());
-            activatorRepository.save(Objects.requireNonNull(conversionService.convert(item, Activator.class)));
         } else {
-            throw new AuthException("Such user exists!");
+            throw new AuthException(USER_EXISTS_ERROR);
         }
 
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtService.generateToken(conversionService.convert(user, User.class));
 
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
@@ -81,13 +84,11 @@ AuthenticationService implements IAuthenticationService {
                     )
             );
         } catch (AuthenticationException ex) {
-            throw new AuthException("Email or password is incorrect!");
+            throw new AuthException(EMAIL_OR_PASSWORD_ERROR);
         }
 
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new AuthException("No such email registered!"));
-
-        var jwtToken = jwtService.generateToken(user);
+        var user = userService.findByEmail(request.getEmail());
+        var jwtToken = jwtService.generateToken(conversionService.convert(user, User.class));
 
         return AuthenticationResponseDTO.builder()
                 .token(jwtToken)
@@ -96,27 +97,26 @@ AuthenticationService implements IAuthenticationService {
 
     @Override
     @Transactional
-    public String verification(String code, String mail) {
-        Optional<User> userOptional = userRepository.findByEmail(mail);
-        Optional<Activator> activatorOptional = activatorRepository.findByEmail(mail);
-        User user = userOptional
-                .orElseThrow(() -> new AuthException("Verification Error!"));
-        Activator activator = activatorOptional
-                .orElseThrow(() -> new AuthException("Verification Error!"));
+    public String verification(String code, String email) {
+        Activator activator = activatorRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthException(VERIFICATION_FAILED));
+        UserDTO user = userService.findByEmail(email);
 
         if (Objects.equals(code, activator.getCode())) {
-            user.setStatus(EUserStatus.ACTIVATED);
+            UserCreateDTO userUpdate = UserCreateDTO.builder()
+                    .role(user.getRole())
+                    .build();
 
-            userRepository.save(user);
+            userService.update(user.getId(), user.getUpdateDate(), userUpdate);
 
-            return "Verification complete";
+            return VERIFICATION_SUCCESS;
         }
 
-        return "Verification failed";
+        return VERIFICATION_FAILED;
     }
 
     @Override
     public UserDTO me(String email) {
-        return conversionService.convert(userRepository.findByEmail(email), UserDTO.class);
+        return userService.findByEmail(email);
     }
 }

@@ -1,15 +1,18 @@
 package by.itacademy.jd2.user_service.service;
 
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
+import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
+import by.itacademy.jd2.user_service.service.exception.AuthException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -53,5 +56,16 @@ public class UserService implements IUserService {
             //TODO customException
             throw new RuntimeException("Versions don't match!");
         }
+    }
+
+    @Override
+    public UserDTO findByEmail(String email) {
+        Optional<User> userOptional = userRepository
+                .findByEmail(email);
+
+        return conversionService.convert(
+                userOptional.orElseThrow(
+                        () -> new AuthException("Email not found!")), UserDTO.class
+        );
     }
 }
