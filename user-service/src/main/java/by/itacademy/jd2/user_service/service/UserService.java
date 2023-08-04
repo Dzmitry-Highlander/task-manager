@@ -6,18 +6,16 @@ import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import by.itacademy.jd2.user_service.service.exception.EmailAlreadyTakenException;
-import jakarta.persistence.EntityNotFoundException;
+import by.itacademy.jd2.user_service.service.exception.ItemNotFoundException;
+import by.itacademy.jd2.user_service.service.exception.VersionsNotMatchException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
-import java.util.TimeZone;
 import java.util.UUID;
 
 @Service
@@ -51,17 +49,17 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     public User read(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
     }
 
     @Transactional
     @Override
     public User update(UUID uuid, Long version, UserCreateDTO item) {
         User user = userRepository.findById(uuid)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
         if (!version.equals(user.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())) {
-            throw new EntityNotFoundException(VERSIONS_NOT_MATCH_ERROR);
+            throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 
         user.setEmail(item.getEmail());
@@ -77,14 +75,14 @@ public class UserService implements IUserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalStateException(EMAIL_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new ItemNotFoundException(EMAIL_NOT_FOUND_ERROR));
     }
 
     @Transactional
     @Override
     public void activate(UserCreateDTO userCreateDTO) {
         User user = userRepository.findByEmail(userCreateDTO.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
         user.setStatus(EUserStatus.ACTIVATED);
         userRepository.save(user);

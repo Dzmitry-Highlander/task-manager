@@ -7,6 +7,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class EmailAlreadyTakenException extends RuntimeException {
+public class EmailAlreadyTakenException extends IllegalStateException {
     private String email;
 }
