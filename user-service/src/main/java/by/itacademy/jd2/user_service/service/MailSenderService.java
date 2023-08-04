@@ -34,7 +34,7 @@ public class MailSenderService implements IMailSenderService {
         }
     }
 
-    //TODO перенести в шаблон thymeleaf
+    //TODO перенести в шаблон thymeleaf и возможно public -> private
     @Override
     public String buildEmail(String code) {
 

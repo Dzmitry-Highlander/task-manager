@@ -5,14 +5,11 @@ import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
-import by.itacademy.jd2.user_service.service.exception.AuthException;
 import by.itacademy.jd2.user_service.service.exception.EmailAlreadyTakenException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -49,10 +46,10 @@ public class UserService implements IUserService {
         User user = conversionService.convert(item, User.class);
         User currentUser = this.read(uuid);
 
+        //TODO if и exception поля управляемые е пользователем
         assert user != null;
-        user.setUpdateDate(LocalDateTime.ofInstant(Instant.ofEpochMilli(System.currentTimeMillis()
-        ), TimeZone.getDefault().toZoneId()));
         user.setCreateDate(currentUser.getCreateDate());
+        user.setUpdateDate(currentUser.getUpdateDate());
 
         if (user.getUpdateDate().isEqual(currentUser.getUpdateDate())) {
             return userRepository.save(user);
@@ -63,6 +60,7 @@ public class UserService implements IUserService {
     }
 
     @Override
+    //TODO User
     public UserDTO findByEmail(String email) {
         Optional<User> userOptional = userRepository
                 .findByEmail(email);
@@ -70,7 +68,9 @@ public class UserService implements IUserService {
         return conversionService.convert(
                 userOptional.orElseThrow(
                         //TODO customException
-                        () -> new AuthException("Email not found!")), UserDTO.class
+                        () -> new IllegalStateException("Email not found!")), UserDTO.class
         );
     }
+
+    //TODO отдельный метод на активацию пользователя
 }

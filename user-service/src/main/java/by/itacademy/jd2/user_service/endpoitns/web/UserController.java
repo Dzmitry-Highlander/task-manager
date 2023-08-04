@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     //TODO привести в порядок все return
@@ -51,9 +51,10 @@ public class UserController {
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     public ResponseEntity<?> update(
             @PathVariable UUID uuid,
+            //TODO Formatter в чате, относится к настройкам Long -> LocalDateTime
             @PathVariable("dt_update") Long updateDate,
             @RequestBody UserCreateDTO userCreateDTO) {
-        //TODO Converter или Formatter
+        //TODO Converter
         User updatedUser = userService.update(uuid, updateDate, userCreateDTO);
         var user = this.conversionService.convert(updatedUser, UserDTO.class);
 

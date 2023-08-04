@@ -4,7 +4,7 @@ import by.itacademy.jd2.user_service.service.api.ICodeGeneratorService;
 
 import java.util.Random;
 
-public class CodeGeneratorService implements ICodeGeneratorService<String> {
+public class CodeGeneratorService implements ICodeGeneratorService {
     @Override
     public String generate() {
         Random random = new Random();
