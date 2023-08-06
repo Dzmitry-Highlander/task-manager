@@ -7,9 +7,9 @@ import org.springframework.data.domain.Page;
 import java.util.UUID;
 
 public interface IAuditService {
-    Audit save(AuditCreateDTO item);
+    Audit create(AuditCreateDTO item);
 
-    Page<Audit> get(int page, int size);
+    Page<Audit> read(int page, int size);
 
-    Audit get(UUID uuid);
+    Audit read(UUID uuid);
 }
