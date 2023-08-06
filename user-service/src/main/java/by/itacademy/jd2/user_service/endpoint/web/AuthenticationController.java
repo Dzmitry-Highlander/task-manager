@@ -1,4 +1,4 @@
-package by.itacademy.jd2.user_service.endpoitns.web;
+package by.itacademy.jd2.user_service.endpoint.web;
 
 import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;

@@ -1,4 +1,4 @@
-package by.itacademy.jd2.user_service.endpoitns.advice;
+package by.itacademy.jd2.user_service.endpoint.advice;
 
 import by.itacademy.jd2.user_service.core.dto.ErrorResponseDTO;
 import by.itacademy.jd2.user_service.core.dto.StructuredErrorResponseDTO;
