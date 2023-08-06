@@ -3,7 +3,6 @@ package by.itacademy.jd2.user_service.config.formatter;
 import org.springframework.format.Formatter;
 import org.springframework.lang.NonNull;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,7 +13,7 @@ public class LongToLocalDateTimeFormatter implements Formatter<LocalDateTime> {
 
     @NonNull
     @Override
-    public LocalDateTime parse(@NonNull String text, @NonNull Locale locale) throws ParseException {
+    public LocalDateTime parse(@NonNull String text, @NonNull Locale locale) {
         try {
             long milliseconds = Long.parseLong(text);
 

@@ -85,4 +85,11 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ErrorResponseDTO> handleNumberFormatError(NumberFormatException exception){
+        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
