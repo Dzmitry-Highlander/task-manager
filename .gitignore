@@ -225,3 +225,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Properties
+application.yml
