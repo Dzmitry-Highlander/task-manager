@@ -4,7 +4,7 @@ import by.itacademy.jd2.audit_service.core.dto.AuditCreateDTO;
 import by.itacademy.jd2.audit_service.dao.api.IAuditRepository;
 import by.itacademy.jd2.audit_service.dao.entity.Audit;
 import by.itacademy.jd2.audit_service.service.api.IAuditService;
-import by.itacademy.jd2.audit_service.service.exception.NoSuchAuditException;
+import by.itacademy.jd2.audit_service.service.exception.AuditNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
@@ -18,6 +18,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class AuditService implements IAuditService {
+    private static final String AUDIT_NOT_FOUND_ERROR = "Заданный аудит не найден: ";
+
     private final IAuditRepository auditRepository;
     private final ConversionService conversionService;
 
@@ -37,6 +39,6 @@ public class AuditService implements IAuditService {
     @Override
     public Audit read(UUID uuid) {
         return this.auditRepository.findById(uuid)
-                .orElseThrow(() -> new NoSuchAuditException(uuid));
+                .orElseThrow(() -> new AuditNotFoundException(AUDIT_NOT_FOUND_ERROR + uuid));
     }
 }
