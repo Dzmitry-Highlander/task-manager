@@ -8,11 +8,14 @@
 		<version>3.1.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>by.itacademy.jd2</groupId>
-	<artifactId>audit_service</artifactId>
+	<artifactId>audit-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>audit_service</name>
+	<name>audit-service</name>
+
 	<description>Audit Service for Task Manager project</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
