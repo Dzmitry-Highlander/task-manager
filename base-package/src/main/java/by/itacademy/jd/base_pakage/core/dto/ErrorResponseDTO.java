@@ -1,6 +1,6 @@
-package by.itacademy.jd2.audit_service.core.dto;
+package by.itacademy.jd.base_pakage.core.dto;
 
-import by.itacademy.jd2.audit_service.core.enums.EErrorType;
+import by.itacademy.jd.base_pakage.core.enums.EErrorType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package by.itacademy.jd2.audit_service.core.dto;
 
+import by.itacademy.jd.base_pakage.core.enums.EUserRole;
 import by.itacademy.jd2.audit_service.core.enums.EEssenceType;
-import by.itacademy.jd2.audit_service.core.enums.EUserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
