@@ -23,14 +23,14 @@ public class AuditController {
     public ResponseEntity<PageDTO<AuditDTO>> list(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        PageDTO<AuditDTO> pageDTO = PageToPageDTOConverter.convert(auditService.get(page, size), conversionService);
+        PageDTO<AuditDTO> pageDTO = PageToPageDTOConverter.convert(auditService.read(page, size), conversionService);
 
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
     @GetMapping("/audit/{uuid}")
     public ResponseEntity<AuditDTO> findById(@PathVariable UUID uuid) {
-        AuditDTO dto = conversionService.convert(auditService.get(uuid), AuditDTO.class);
+        AuditDTO dto = conversionService.convert(auditService.read(uuid), AuditDTO.class);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
