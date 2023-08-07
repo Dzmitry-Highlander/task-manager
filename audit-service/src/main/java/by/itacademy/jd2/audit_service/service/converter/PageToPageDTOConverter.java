@@ -5,7 +5,7 @@ import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.dao.entity.Audit;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 
 @AllArgsConstructor
