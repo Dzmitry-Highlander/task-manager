@@ -60,7 +60,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleItemNotFountError(ItemNotFoundException exception){
+    public ResponseEntity<ErrorResponseDTO> handleItemNotFoundError(ItemNotFoundException exception){
         ErrorResponseDTO response = new ErrorResponseDTO(
                 EErrorType.ERROR, ITEM_NOT_FOUND_ERROR + exception.getItem()
         );
