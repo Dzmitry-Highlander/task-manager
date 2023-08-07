@@ -40,8 +40,8 @@ public class AuthenticationService implements IAuthenticationService {
     private final IUserHolder userHolder;
     private final ICodeGeneratorService codeGeneratorService;
 
-    @Override
     @Transactional
+    @Override
     public void register(UserRegistrationDTO request)   {
         var time = System.currentTimeMillis();
         var code = codeGeneratorService.generate();
@@ -76,6 +76,7 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public AuthenticationResponseDTO login(UserLoginDTO request) {
         try {
@@ -97,8 +98,8 @@ public class AuthenticationService implements IAuthenticationService {
                 .build();
     }
 
-    @Override
     @Transactional
+    @Override
     public String verification(String code, String email) {
         Activator activator = activatorRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException(VERIFICATION_FAILED));
@@ -109,7 +110,6 @@ public class AuthenticationService implements IAuthenticationService {
                     .role(user.getRole())
                     .build();
 
-            //TODO отдельный метод на активацию пользователя
             userService.activate(userUpdate);
 
             return VERIFICATION_SUCCESS;
@@ -118,6 +118,7 @@ public class AuthenticationService implements IAuthenticationService {
         }
     }
 
+    @Transactional(readOnly = true)
     @Override
     public UserDTO me() {
         return conversionService.convert(

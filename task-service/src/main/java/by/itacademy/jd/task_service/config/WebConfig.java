@@ -1,6 +1,7 @@
 package by.itacademy.jd.task_service.config;
 
 import by.itacademy.jd.task_service.service.converter.ProjectCreateDTOToProjectConverter;
+import by.itacademy.jd.task_service.service.converter.TaskSaveDTOToTaskConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -23,6 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new ProjectCreateDTOToProjectConverter());
+        registry.addConverter(new TaskSaveDTOToTaskConverter());
     }
 
     @Override
