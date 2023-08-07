@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -39,10 +40,11 @@ public class Project {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "user_id")
+    @Column(name = "manger_id")
     private UUID manager;
 
-    //TODO List в Entity?
+    @Column(name = "stuff_id")
+    private List<UUID> stuff;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

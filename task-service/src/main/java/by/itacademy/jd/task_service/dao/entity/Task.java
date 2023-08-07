@@ -46,6 +46,6 @@ public class Task {
     @Column(name = "status")
     private ETaskStatus status;
 
-    @Column(name = "user_id")
+    @Column(name = "implementer_id")
     private UUID implementer;
 }
