@@ -1,6 +1,6 @@
-package by.itacademy.jd2.user_service.config;
+package by.itacademy.jd2.audit_service.config;
 
-import by.itacademy.jd2.user_service.endpoint.filter.JwtAuthFilter;
+import by.itacademy.jd2.audit_service.endpoint.filter.JwtAuthFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
