@@ -3,12 +3,12 @@ package by.itacademy.jd2.audit_service.service.converter;
 import by.itacademy.jd.base_pakage.core.dto.PageDTO;
 import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.dao.entity.Audit;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.core.convert.converter.Converter;;
 import org.springframework.data.domain.Page;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class PageToPageDTOConverter implements Converter<Page<Audit>, PageDTO<AuditDTO>> {
     private final ConversionService conversionService;
 
