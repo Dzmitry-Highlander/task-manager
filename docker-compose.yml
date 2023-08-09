@@ -17,6 +17,28 @@ services:
     networks:
       - taskmanager_ntwrk
 
+  audit_service_db:
+    build:
+      context: ./audit-service/docker/db
+      dockerfile: db.Dockerfile
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: manager
+      POSTGRES_PASSWORD: manager
+    networks:
+      - taskmanager_ntwrk
+
+  task_service_db:
+    build:
+      context: ./task-service/docker/db
+      dockerfile: db.Dockerfile
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: manager
+      POSTGRES_PASSWORD: manager
+    networks:
+      - taskmanager_ntwrk
+
   pg_db:
     image: dpage/pgadmin4:7.4
     container_name: pgadmin
