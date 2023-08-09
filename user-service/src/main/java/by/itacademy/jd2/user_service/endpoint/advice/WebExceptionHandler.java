@@ -39,13 +39,6 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponseDTO> handleBadRequest(){
-        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, DATA_NOT_CORRECT_ERROR);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler({
             IllegalArgumentException.class,
             IOException.class,
