@@ -46,7 +46,7 @@ services:
       - taskmanager_ntwrk
 
   pg_db:
-    image: dpage/pgadmin4:7.4
+    image: dpage/pgadmin4:7.5
     container_name: pgadmin
     restart: unless-stopped
     environment:
