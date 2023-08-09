@@ -1,0 +1,45 @@
+# APP_ROOT/docker-compose.yml
+#         user-service/docker/db/ddl/init.sql
+#         user-service/docker/db/db.Dockerfile
+#         user-service/docker/app/app.Dockerfile
+version: '3.5'
+
+services:
+
+  user_service_db:
+    build:
+      context: ./user-service/docker/db
+      dockerfile: db.Dockerfile
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: manager
+      POSTGRES_PASSWORD: manager
+    networks:
+      - taskmanager_ntwrk
+
+  pg_db:
+    image: dpage/pgadmin4:7.4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: manager@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: manager
+    volumes:
+      - ./user-service/var/pgdata:/var/lib/postgresql/data
+    ports:
+      - "5001:80"
+    networks:
+      - taskmanager_ntwrk
+
+  user_service_app:
+    build:
+      dockerfile: user-service/docker/app/app.Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5000:80"
+    networks:
+      - taskmanager_ntwrk
+
+networks:
+  taskmanager_ntwrk:
+    name: taskmanager_ntwrk
