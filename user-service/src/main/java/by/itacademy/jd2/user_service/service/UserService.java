@@ -54,7 +54,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User update(UUID uuid, Long version, UserCreateDTO item) {
+    public User update(UUID uuid, String version, UserCreateDTO item) {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 

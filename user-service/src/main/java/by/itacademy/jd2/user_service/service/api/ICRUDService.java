@@ -10,5 +10,5 @@ public interface ICRUDService<T, S> {
 
     T read(UUID id);
 
-    T update(UUID id, Long version, S item);
+    T update(UUID id, String version, S item);
 }

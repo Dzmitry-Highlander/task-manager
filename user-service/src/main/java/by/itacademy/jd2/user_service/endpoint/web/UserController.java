@@ -32,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> get(@PathVariable UUID id) {
-        var user = conversionService.convert(userService.read(id), UserDTO.class);
+    public ResponseEntity<?> get(@PathVariable UUID uuid) {
+        var user = conversionService.convert(userService.read(uuid), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -47,11 +47,10 @@ public class UserController {
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     public ResponseEntity<?> update(
-            @PathVariable UUID uuid,
-            //TODO Formatter в чате, относится к настройкам Long -> LocalDateTime
-            @PathVariable("dt_update") Long updateDate,
+            @PathVariable("uuid") UUID uuid,
+            @PathVariable("dt_update") String updateDate,
             @RequestBody UserCreateDTO userCreateDTO) {
-        var user = this.conversionService.convert(userService.update(uuid, updateDate, userCreateDTO), UserDTO.class);
+        var user = conversionService.convert(userService.update(uuid, updateDate, userCreateDTO), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }

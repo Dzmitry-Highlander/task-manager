@@ -1,7 +1,7 @@
 package by.itacademy.jd2.task_service.endpoint.advice;
 
-import by.itacademy.jd2.base_package.core.dto.ErrorResponseDTO;
 import by.itacademy.jd2.base_package.core.enums.EErrorType;
+import by.itacademy.jd2.base_package.core.dto.ErrorResponseDTO;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
