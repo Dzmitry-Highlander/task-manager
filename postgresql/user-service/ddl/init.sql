@@ -28,7 +28,7 @@ CREATE TABLE users.users
     role character varying(35) NOT NULL,
     status character varying(35) NOT NULL,
     password character varying(250) NOT NULL,
-    PRIMARY KEY (uuid),
+    PRIMARY KEY (user_id),
     UNIQUE (email)
 );
 
@@ -37,14 +37,14 @@ CREATE TABLE users.activator
     activator_id uuid,
     dt_create timestamp(6) without time zone,
     email character varying(255) NOT NULL,
-    code integer varying(4) NOT NULL,
+    code character varying(4) NOT NULL,
     dt_expiration timestamp(6) without time zone,
-    PRIMARY KEY (uuid),
-    UNIQUE (email),
+    PRIMARY KEY (activator_id),
+    UNIQUE (email)
 );
 
 ALTER TABLE IF EXISTS users.activator
-    OWNER to root;
+    OWNER to manager;
 
 ALTER TABLE IF EXISTS users.users
-    OWNER to root;
+    OWNER to manager;

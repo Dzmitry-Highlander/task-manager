@@ -67,6 +67,8 @@ services:
 
   user-service:
     build: user-service
+    depends_on:
+      - user_service_db
     image: taskmanager_user-service:1.0.0
     restart: unless-stopped
     networks:
