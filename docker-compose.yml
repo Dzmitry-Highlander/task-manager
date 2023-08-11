@@ -1,21 +1,17 @@
 # APP_ROOT/docker-compose.yml
 #         user-service/docker/db/ddl/init.sql
 #         user-service/docker/db/db.Dockerfile
-#         user-service/docker/app/app.Dockerfile
 #         audit-service/docker/db/ddl/init.sql
 #         audit-service/docker/db/db.Dockerfile
-#         audit-service/docker/app/app.Dockerfile
 #         task-service/docker/db/ddl/init.sql
 #         task-service/docker/db/db.Dockerfile
-#         task-service/docker/app/app.Dockerfile
 version: '3.5'
 
 services:
 
   audit_service_db:
     build:
-      context: ./audit-service/docker/db
-      dockerfile: db.Dockerfile
+      context: /postgresql/audit-service/
     restart: unless-stopped
     environment:
       POSTGRES_USER: manager
@@ -25,8 +21,7 @@ services:
 
   task_service_db:
     build:
-      context: ./task-service/docker/db
-      dockerfile: db.Dockerfile
+      context: /postgresql/task-service/
     restart: unless-stopped
     environment:
       POSTGRES_USER: manager
@@ -36,8 +31,7 @@ services:
 
   user_service_db:
     build:
-      context: ./user-service/docker/db
-      dockerfile: db.Dockerfile
+      context: /postgresql/user-service/
     restart: unless-stopped
     environment:
       POSTGRES_USER: manager
@@ -57,13 +51,6 @@ services:
     networks:
       - taskmanager_ntwrk
 
-  user_service_app:
-    build:
-      dockerfile: user-service/docker/app/app.Dockerfile
-    restart: unless-stopped
-    networks:
-      - taskmanager_ntwrk
-
   audit_service_app:
     build:
       dockerfile: audit-service/docker/app/app.Dockerfile
@@ -74,6 +61,13 @@ services:
   task_service_app:
     build:
       dockerfile: task-service/docker/app/app.Dockerfile
+    restart: unless-stopped
+    networks:
+      - taskmanager_ntwrk
+
+  user_service_app:
+    build: user-service
+    image: taskmanager_user-service:1.0.0
     restart: unless-stopped
     networks:
       - taskmanager_ntwrk
@@ -90,6 +84,7 @@ services:
   proxy:
     build: proxy
     image: taskmanager_proxy:1.0.0
+    restart: unless-stopped
     ports:
       - "80:80"
     networks:
