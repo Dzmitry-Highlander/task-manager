@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -50,7 +51,8 @@ public class UserController {
             @PathVariable("uuid") UUID uuid,
             @PathVariable("dt_update") String updateDate,
             @RequestBody UserCreateDTO userCreateDTO) {
-        var user = conversionService.convert(userService.update(uuid, updateDate, userCreateDTO), UserDTO.class);
+        var version = conversionService.convert(updateDate, LocalDateTime.class);
+        var user = conversionService.convert(userService.update(uuid, version, userCreateDTO), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }

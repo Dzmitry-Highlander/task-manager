@@ -9,18 +9,12 @@ import java.time.ZoneId;
 import java.util.Locale;
 
 public class LongToLocalDateTimeFormatter implements Formatter<LocalDateTime> {
-    private static final String NOT_CORRECT_INPUT_ERROR = "Введены некорректные символы, допустимы только цифры";
-
     @NonNull
     @Override
     public LocalDateTime parse(@NonNull String text, @NonNull Locale locale) {
-        try {
-            long milliseconds = Long.parseLong(text);
+        long milliseconds = Long.parseLong(text);
 
-            return LocalDateTime.ofInstant(Instant.ofEpochMilli(milliseconds), ZoneId.systemDefault());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(NOT_CORRECT_INPUT_ERROR);
-        }
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(milliseconds), ZoneId.systemDefault());
     }
 
     @NonNull

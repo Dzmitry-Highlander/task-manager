@@ -13,7 +13,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -54,11 +54,11 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User update(UUID uuid, String version, UserCreateDTO item) {
+    public User update(UUID uuid, LocalDateTime version, UserCreateDTO item) {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
-        if (!version.equals(user.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())) {
+        if (!version.equals(user.getUpdateDate().withNano(0))) {
             throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 
