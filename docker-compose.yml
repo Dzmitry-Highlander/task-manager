@@ -53,6 +53,8 @@ services:
 
   audit_service:
     build: audit-service
+    depends_on:
+      - audit_service_db
     image: taskmanager_audit-service:1.0.0
     restart: unless-stopped
     networks:

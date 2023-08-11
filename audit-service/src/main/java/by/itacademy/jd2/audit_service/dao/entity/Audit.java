@@ -30,8 +30,8 @@ public class Audit {
     @Column(name = "user_id")
     private UUID userId;
 
-    @Column(name = "mail")
-    private String mail;
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "fio")
     private String fio;
