@@ -107,6 +107,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         if (Objects.equals(code, activator.getCode())) {
             UserCreateDTO userUpdate = UserCreateDTO.builder()
+                    .email(user.getEmail())
                     .role(user.getRole())
                     .build();
 

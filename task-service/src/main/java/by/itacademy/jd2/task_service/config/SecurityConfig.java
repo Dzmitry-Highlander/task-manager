@@ -1,6 +1,6 @@
-package by.itacademy.jd2.user_service.config;
+package by.itacademy.jd2.task_service.config;
 
-import by.itacademy.jd2.user_service.endpoint.filter.JwtAuthFilter;
+import by.itacademy.jd2.task_service.endpoint.filter.JwtAuthFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,17 +27,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
                                 //TODO настроить все согласно OpenApi
-                                .requestMatchers(
-                                        "/users/registration",
-                                        "/users/login",
-                                        "/users/registration/confirm"
-                                )
+                                .requestMatchers("/api/v1/users/registration")
                                 .permitAll()
-                                .requestMatchers(
-                                        "/users/*/dt_update/*",
-                                        "/users/*",
-                                        "/users")
-                                .hasAnyRole("ADMIN")
+                                .requestMatchers("/api/v1/users/login")
+                                .permitAll()
+                                .requestMatchers("/api/v1/users/registration/confirm")
+                                .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )

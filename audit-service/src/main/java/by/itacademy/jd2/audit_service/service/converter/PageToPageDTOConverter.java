@@ -1,6 +1,6 @@
 package by.itacademy.jd2.audit_service.service.converter;
 
-import by.itacademy.jd.base_pakage.core.dto.PageDTO;
+import by.itacademy.jd2.base_package.core.dto.PageDTO;
 import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.dao.entity.Audit;
 import lombok.AllArgsConstructor;

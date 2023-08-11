@@ -51,21 +51,21 @@ services:
     networks:
       - taskmanager_ntwrk
 
-  audit_service_app:
-    build:
-      dockerfile: audit-service/docker/app/app.Dockerfile
+  audit_service:
+    build: audit-service
+    image: taskmanager_audit-service:1.0.0
     restart: unless-stopped
     networks:
       - taskmanager_ntwrk
 
-  task_service_app:
+  task_service:
     build:
       dockerfile: task-service/docker/app/app.Dockerfile
     restart: unless-stopped
     networks:
       - taskmanager_ntwrk
 
-  user_service_app:
+  user-service:
     build: user-service
     image: taskmanager_user-service:1.0.0
     restart: unless-stopped

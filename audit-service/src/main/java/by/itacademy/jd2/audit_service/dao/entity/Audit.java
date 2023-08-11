@@ -1,6 +1,6 @@
 package by.itacademy.jd2.audit_service.dao.entity;
 
-import by.itacademy.jd.base_pakage.core.enums.EUserRole;
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

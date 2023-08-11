@@ -1,8 +1,8 @@
-package by.itacademy.jd2.audit_service.endpoint.advice;
+package by.itacademy.jd2.task_service.endpoint.advice;
 
 import by.itacademy.jd2.base_package.core.dto.ErrorResponseDTO;
 import by.itacademy.jd2.base_package.core.enums.EErrorType;
-import by.itacademy.jd2.audit_service.service.exception.AuditNotFoundException;
+import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,14 +11,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class WebExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final String AUDIT_NOT_FOUND_ERROR =
+    private static final String ITEM_NOT_FOUND_ERROR =
             "Запрос содержит некорректные данные. Измените запрос и отправьте его ещё раз";
 
-    @ExceptionHandler(AuditNotFoundException.class)
-    public ResponseEntity<ErrorResponseDTO> handleAuditNotFoundError(AuditNotFoundException exception) {
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAuditNotFoundError(ItemNotFoundException exception) {
         ErrorResponseDTO response = ErrorResponseDTO.builder()
                 .logref(EErrorType.ERROR)
-                .message(AUDIT_NOT_FOUND_ERROR)
+                .message(ITEM_NOT_FOUND_ERROR)
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

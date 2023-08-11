@@ -1,9 +1,8 @@
 package by.itacademy.jd2.audit_service.endpoint.web;
 
-import by.itacademy.jd.base_pakage.core.dto.PageDTO;
+import by.itacademy.jd2.base_package.core.dto.PageDTO;
 import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.service.api.IAuditService;
-import by.itacademy.jd2.audit_service.service.converter.PageToPageDTOConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -23,9 +22,8 @@ public class AuditController {
     public ResponseEntity<PageDTO<AuditDTO>> list(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        PageDTO<AuditDTO> pageDTO = PageToPageDTOConverter.convert(auditService.read(page, size), conversionService);
 
-        return new ResponseEntity<>(pageDTO, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/audit/{uuid}")
