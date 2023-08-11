@@ -63,6 +63,8 @@ services:
   task_service:
     build:
       dockerfile: task-service/docker/app/app.Dockerfile
+    depends_on:
+      - task_service_db
     restart: unless-stopped
     networks:
       - taskmanager_ntwrk
