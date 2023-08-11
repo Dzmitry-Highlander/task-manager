@@ -1,11 +1,32 @@
 {
   "Servers": {
     "1": {
-      "Name": "Task-Manager DB",
+      "Name": "Audit-service DB",
       "Group": "Server Group",
       "Port": 5432,
       "Username": "manager",
-      "Host": "db",
+      "Password": "manager",
+      "Host": "audit_service_db",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    },
+    "2": {
+      "Name": "Task-service DB",
+      "Group": "Server Group",
+      "Port": 5432,
+      "Username": "manager",
+      "Password": "manager",
+      "Host": "task_service_db",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "postgres"
+    },
+    "3": {
+      "Name": "User-service DB",
+      "Group": "Server Group",
+      "Port": 5432,
+      "Username": "manager",
+      "Password": "manager",
+      "Host": "user_service_db",
       "SSLMode": "prefer",
       "MaintenanceDB": "postgres"
     }
