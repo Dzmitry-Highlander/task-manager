@@ -2,6 +2,7 @@ package by.itacademy.jd2.user_service.endpoint.web;
 
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
+import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,9 @@ public class UserController {
     public ResponseEntity<?> update(
             @PathVariable("uuid") UUID uuid,
             @PathVariable("dt_update") String updateDate,
-            @RequestBody UserCreateDTO userCreateDTO) {
+            @RequestBody UserUpdateDTO userUpdateDTO) {
         var version = conversionService.convert(updateDate, LocalDateTime.class);
-        var user = conversionService.convert(userService.update(uuid, version, userCreateDTO), UserDTO.class);
+        var user = conversionService.convert(userService.update(uuid, version, userUpdateDTO), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }

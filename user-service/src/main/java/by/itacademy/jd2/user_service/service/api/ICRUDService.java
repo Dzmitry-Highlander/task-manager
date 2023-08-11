@@ -1,5 +1,7 @@
 package by.itacademy.jd2.user_service.service.api;
 
+import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -11,5 +13,5 @@ public interface ICRUDService<T, S> {
 
     T read(UUID id);
 
-    T update(UUID id, LocalDateTime version, S item);
+    T update(UUID id, LocalDateTime version, UserUpdateDTO item);
 }

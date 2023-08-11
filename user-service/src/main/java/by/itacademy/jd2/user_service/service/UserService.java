@@ -1,6 +1,7 @@
 package by.itacademy.jd2.user_service.service;
 
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
+import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import by.itacademy.jd2.user_service.dao.api.IUserRepository;
 import by.itacademy.jd2.user_service.dao.entity.User;
@@ -54,7 +55,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User update(UUID uuid, LocalDateTime version, UserCreateDTO item) {
+    public User update(UUID uuid, LocalDateTime version, UserUpdateDTO item) {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
@@ -62,11 +63,9 @@ public class UserService implements IUserService {
             throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 
-        user.setEmail(item.getEmail());
-        user.setPassword(item.getPassword());
         user.setFio(item.getFio());
         user.setRole(item.getRole());
-        user.setStatus(user.getStatus());
+        user.setStatus(item.getStatus());
 
         return userRepository.save(user);
     }
