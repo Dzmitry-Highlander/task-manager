@@ -1,9 +1,9 @@
 FROM eclipse-temurin:17-jdk-jammy
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
+COPY user-service/.mvn/ .mvn
+COPY user-service/mvnw user-service/pom.xml ./
 RUN ./mvnw dependency:resolve
 
-COPY src ./src
+COPY user-service/src ./src
 
 CMD ["./mvnw", "spring-boot:run"]

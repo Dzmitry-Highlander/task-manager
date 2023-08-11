@@ -1,4 +1,4 @@
-package by.itacademy.jd2.audit_service.config;
+package by.itacademy.jd.task_service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
