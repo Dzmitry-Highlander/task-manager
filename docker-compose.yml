@@ -61,8 +61,6 @@ services:
     build:
       dockerfile: user-service/docker/app/app.Dockerfile
     restart: unless-stopped
-    ports:
-      - "5000:80"
     networks:
       - taskmanager_ntwrk
 
@@ -70,8 +68,6 @@ services:
     build:
       dockerfile: audit-service/docker/app/app.Dockerfile
     restart: unless-stopped
-    ports:
-      - "5000:81"
     networks:
       - taskmanager_ntwrk
 
@@ -79,14 +75,13 @@ services:
     build:
       dockerfile: task-service/docker/app/app.Dockerfile
     restart: unless-stopped
-    ports:
-      - "5000:82"
     networks:
       - taskmanager_ntwrk
 
   swagger-ui:
     build: swagger-ui
     image: taskmanager_swagger-ui:1.0.0
+    restart: unless-stopped
     ports:
       - "81:8080"
     networks:
