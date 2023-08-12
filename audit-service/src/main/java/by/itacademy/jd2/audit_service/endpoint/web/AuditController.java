@@ -24,11 +24,9 @@ public class AuditController {
     public ResponseEntity<PageDTO<AuditDTO>> list(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "20") @PositiveOrZero int size) {
-        PageDTO<AuditDTO> pageOfAuditDTO = conversionService.convert(
-                auditService.read(PageRequest.of(page, size)), PageDTO.class
+        return new ResponseEntity<PageDTO<AuditDTO>>(conversionService.convert(
+                auditService.read(PageRequest.of(page, size)), PageDTO.class), HttpStatus.OK
         );
-
-        return new ResponseEntity<>(pageOfAuditDTO, HttpStatus.OK);
     }
 
     @GetMapping("/audit/{uuid}")
