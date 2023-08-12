@@ -41,12 +41,12 @@ public class Audit {
     @Column(name = "role")
     private EUserRole role;
 
-    @Column(name = "text")
-    private String text;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private EUserRole status;
+
+    @Column(name = "text")
+    private String text;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
