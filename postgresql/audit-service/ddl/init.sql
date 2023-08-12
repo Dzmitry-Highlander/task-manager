@@ -21,7 +21,7 @@ CREATE SCHEMA audit;
 CREATE TABLE audit.audit
 (
     audit_id uuid,
-    dt_create timestamp(6) without time zone,
+    dt_create timestamp(3) without time zone,
     user_id uuid,
     email character varying(255) NOT NULL,
     fio character varying(255) NOT NULL,

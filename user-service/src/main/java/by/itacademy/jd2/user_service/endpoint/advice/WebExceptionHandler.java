@@ -22,7 +22,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String DATA_NOT_CORRECT_ERROR =
             "Запрос содержит некорректные данные. Измените запрос и отправьте его еще раз";
     private static final String INTERNAL_SERVER_ERROR = "Внутренняя ошибка сервера. Попробуйте позже";
-    private static final String ITEM_NOT_FOUND_ERROR = "Невозможно найти пользователя с таким ";
+    private static final String ITEM_NOT_FOUND_ERROR = "Невозможно найти. ";
     private static final String EMAIL_ALREADY_EXISTS_ERROR = "Пользователь с такой почтой уже зарегистрирован: ";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Текущая версия не совпадает с указанной";
 

@@ -21,8 +21,8 @@ CREATE SCHEMA users;
 CREATE TABLE users.users
 (
     user_id uuid,
-    dt_create timestamp(6) without time zone,
-    dt_update timestamp(6) without time zone,
+    dt_create timestamp(3) without time zone,
+    dt_update timestamp(3) without time zone,
     email character varying(255) NOT NULL,
     fio character varying(255) NOT NULL,
     role character varying(35) NOT NULL,

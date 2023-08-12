@@ -21,8 +21,8 @@ CREATE SCHEMA task;
 CREATE TABLE task.task
 (
     task_id uuid,
-    dt_create timestamp(6) without time zone,
-    dt_update timestamp(6) without time zone,
+    dt_create timestamp(3) without time zone,
+    dt_update timestamp(3) without time zone,
     project_id uuid,
     title character varying(255) NOT NULL,
     description character varying(35) NOT NULL,

@@ -216,6 +216,6 @@ public class MailSenderService implements IMailSenderService {
                       </div>
                    </body>
                 </html>
-                """.formatted(code, code); //TODO (code, code) -> (code)
+                """.formatted(code, code);
     }
 }

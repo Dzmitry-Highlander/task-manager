@@ -25,7 +25,6 @@ public class UserService implements IUserService {
     private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
     private static final String USER_NOT_FOUND_ERROR = "Пользователь с таким email не найден";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
-    private static final String EMAIL_NOT_FOUND_ERROR = "Email не найден";
 
     private final IUserRepository userRepository;
     private final ConversionService conversionService;
@@ -59,7 +58,7 @@ public class UserService implements IUserService {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
-        if (!version.equals(user.getUpdateDate().withNano(0))) {
+        if (!version.equals(user.getUpdateDate())) {
             throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 
@@ -74,7 +73,7 @@ public class UserService implements IUserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ItemNotFoundException(EMAIL_NOT_FOUND_ERROR));
+                .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
     }
 
     @Transactional

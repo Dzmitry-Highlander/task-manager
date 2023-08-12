@@ -27,8 +27,7 @@ import java.util.concurrent.TimeUnit;
 public class AuthenticationService implements IAuthenticationService {
     private static final String EMAIL_OR_PASSWORD_ERROR = "Вы ввели неверный email или пароль";
     private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
-    private static final String VERIFICATION_FAILED = "Сервер не смог корректно обработать запрос. Пожалуйста " +
-            "обратитесь к администратору";
+    private static final String VERIFICATION_FAILED = "Верификация провалена";
 
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
