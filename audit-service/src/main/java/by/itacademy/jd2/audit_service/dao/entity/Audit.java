@@ -1,5 +1,6 @@
 package by.itacademy.jd2.audit_service.dao.entity;
 
+import by.itacademy.jd2.audit_service.core.enums.EEssenceType;
 import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -46,6 +47,10 @@ public class Audit {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private EUserRole status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private EEssenceType type;
 
     @Column(name = "id")
     private String id;
