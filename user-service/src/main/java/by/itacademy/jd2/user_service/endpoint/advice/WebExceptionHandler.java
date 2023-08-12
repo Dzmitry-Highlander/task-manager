@@ -23,6 +23,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
             "Запрос содержит некорректные данные. Измените запрос и отправьте его еще раз";
     private static final String INTERNAL_SERVER_ERROR =
             "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору";
+    private static final String INVALID_ARGUMENT_ERROR = "Запрос содержит некорректные символы";
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<StructuredErrorResponseDTO> handleInvalidArgument(ConstraintViolationException exception){
@@ -31,7 +32,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errors = response.getErrors();
 
         exception.getConstraintViolations()
-                .forEach(v -> errors.put(v.getPropertyPath().toString(), DATA_NOT_CORRECT_ERROR));
+                .forEach(v -> errors.put(v.getPropertyPath().toString(), INVALID_ARGUMENT_ERROR));
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -62,7 +63,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
                 EErrorType.STRUCTURED_ERROR, new HashMap<>()
         );
 
-        response.getErrors().put("email", DATA_NOT_CORRECT_ERROR);
+        response.getErrors().put("email", INVALID_ARGUMENT_ERROR);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
