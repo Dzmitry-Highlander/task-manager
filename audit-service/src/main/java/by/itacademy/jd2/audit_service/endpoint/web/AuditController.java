@@ -21,7 +21,7 @@ public class AuditController {
     private final ConversionService conversionService;
 
     @GetMapping
-    public ResponseEntity<PageDTO<AuditDTO>> list(
+    public ResponseEntity<?> list(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "20") @PositiveOrZero int size) {
         PageDTO<AuditDTO> pageOfAuditDTO = conversionService.convert(
