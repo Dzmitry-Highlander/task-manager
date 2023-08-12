@@ -1,5 +1,6 @@
 package by.itacademy.jd2.audit_service.config;
 
+import by.itacademy.jd2.audit_service.service.converter.AuditCreateDTOToAuditConverter;
 import by.itacademy.jd2.audit_service.service.converter.AuditToAuditDTOConverter;
 import by.itacademy.jd2.audit_service.service.converter.PageToPageDTOConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -27,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new PageToPageDTOConverter());
         registry.addConverter(new AuditToAuditDTOConverter());
+        registry.addConverter(new AuditCreateDTOToAuditConverter());
     }
 
     @Override
