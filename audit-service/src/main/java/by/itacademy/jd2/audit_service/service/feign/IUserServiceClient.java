@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(value = "user-service", url = "http://user-service:8080/users/me")
-public interface UserServiceClient {
+public interface IUserServiceClient {
 
     @GetMapping
     ResponseEntity<UserShortDTO> send(@RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken);
