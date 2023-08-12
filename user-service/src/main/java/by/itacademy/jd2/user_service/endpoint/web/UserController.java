@@ -5,10 +5,12 @@ import by.itacademy.jd2.user_service.core.dto.UserDTO;
 import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,6 +19,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
+@Validated
 @RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
@@ -41,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> post(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<?> post(@Valid @RequestBody UserCreateDTO dto) {
         var user = conversionService.convert(userService.create(dto), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -51,7 +54,7 @@ public class UserController {
     public ResponseEntity<?> update(
             @PathVariable("uuid") UUID uuid,
             @PathVariable("dt_update") String updateDate,
-            @RequestBody UserUpdateDTO userUpdateDTO) {
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         var version = conversionService.convert(updateDate, LocalDateTime.class);
         var user = conversionService.convert(userService.update(uuid, version, userUpdateDTO), UserDTO.class);
 

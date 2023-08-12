@@ -9,10 +9,12 @@ import by.itacademy.jd2.user_service.service.api.IUserService;
 import by.itacademy.jd2.user_service.service.exception.EmailAlreadyTakenException;
 import by.itacademy.jd2.user_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.user_service.service.exception.VersionsNotMatchException;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
+@Validated
 @AllArgsConstructor
 public class UserService implements IUserService {
     private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
@@ -31,7 +34,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User create(UserCreateDTO item) {
+    public User create(@Valid UserCreateDTO item) {
         userRepository.findByEmail(item.getEmail())
                 .ifPresent(e -> {throw new EmailAlreadyTakenException(USER_EXISTS_ERROR);
         });
@@ -54,7 +57,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User update(UUID uuid, LocalDateTime version, UserUpdateDTO item) {
+    public User update(UUID uuid, LocalDateTime version, @Valid UserUpdateDTO item) {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
@@ -78,7 +81,7 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public void activate(UserCreateDTO userCreateDTO) {
+    public void activate(@Valid UserCreateDTO userCreateDTO) {
         User user = userRepository.findByEmail(userCreateDTO.getEmail())
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
