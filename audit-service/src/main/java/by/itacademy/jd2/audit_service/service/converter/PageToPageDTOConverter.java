@@ -17,6 +17,7 @@ public class PageToPageDTOConverter implements Converter<Page<Audit>, PageDTO<Au
     @Override
     public PageDTO<AuditDTO> convert(Page<Audit> page) {
         List<AuditDTO> auditDTOS = new ArrayList<>();
+
         for (Audit entity : page.getContent()) {
             AuditDTO auditDTO = new AuditDTO();
             UserShortDTO userShortDTO = new UserShortDTO();
