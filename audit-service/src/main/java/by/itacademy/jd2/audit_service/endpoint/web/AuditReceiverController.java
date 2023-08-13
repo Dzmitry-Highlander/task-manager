@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuditReceiverController {
     private final IAuditReceiverService auditReceiverService;
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody @Valid AuditCreateDTO auditCreateDTO) {
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<?> save(@RequestBody AuditCreateDTO auditCreateDTO){
         auditReceiverService.save(auditCreateDTO);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
