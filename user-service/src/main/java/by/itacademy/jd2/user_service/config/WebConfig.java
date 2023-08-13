@@ -29,6 +29,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new ActivatorCreateDTOtoActivatorConverter());
         registry.addConverter(new UserCreateDTOTOUserConverter());
         registry.addConverter(new LongToDateTimeConverter());
+        registry.addConverter(new UserToUserShortDTOConverter());
     }
 
     @Override

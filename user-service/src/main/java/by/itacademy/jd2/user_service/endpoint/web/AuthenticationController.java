@@ -4,7 +4,6 @@ import by.itacademy.jd2.user_service.core.dto.UserLoginDTO;
 import by.itacademy.jd2.user_service.core.dto.UserRegistrationDTO;
 import by.itacademy.jd2.user_service.service.api.IAuthenticationService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +18,14 @@ public class AuthenticationController {
     private final IAuthenticationService authenticationService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> register(
-            @RequestBody @Valid UserRegistrationDTO request
-    ) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserRegistrationDTO request) {
         authenticationService.register(request);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> register(
-            @RequestBody @Valid UserLoginDTO request
-    ) {
+    public ResponseEntity<?> register(@RequestBody @Valid UserLoginDTO request) {
         var response = authenticationService.login(request);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -39,7 +34,7 @@ public class AuthenticationController {
     @GetMapping("/registration/confirm")
     public ResponseEntity<?> confirm(
             @RequestParam("code") String code,
-            @RequestParam("email") @Email String email
+            @RequestParam("email") String email
     ) {
         var response = authenticationService.verification(code, email);
 

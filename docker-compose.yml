@@ -51,7 +51,7 @@ services:
     networks:
       - taskmanager_ntwrk
 
-  audit_service:
+  audit-service:
     build: audit-service
     depends_on:
       - audit_service_db
@@ -60,11 +60,12 @@ services:
     networks:
       - taskmanager_ntwrk
 
-  task_service:
+  task-service:
     build:
       dockerfile: task-service/docker/app/app.Dockerfile
     depends_on:
       - task_service_db
+      - audit-service
     restart: unless-stopped
     networks:
       - taskmanager_ntwrk
@@ -73,6 +74,7 @@ services:
     build: user-service
     depends_on:
       - user_service_db
+      - audit-service
     image: taskmanager_user-service:1.0.0
     restart: unless-stopped
     networks:

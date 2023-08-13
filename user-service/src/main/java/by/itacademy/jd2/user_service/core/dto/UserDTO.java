@@ -1,6 +1,6 @@
 package by.itacademy.jd2.user_service.core.dto;
 
-import by.itacademy.jd2.user_service.core.enums.EUserRole;
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import lombok.*;
 

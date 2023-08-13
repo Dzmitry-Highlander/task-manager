@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.service;
 
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.dto.*;
-import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
 import by.itacademy.jd2.user_service.dao.entity.Activator;
@@ -12,6 +12,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,6 @@ public class AuthenticationService implements IAuthenticationService {
     private final IUserService userService;
     private final IActivatorRepository activatorRepository;
     private final IMailSenderService mailSenderService;
-    private final IUserHolder userHolder;
     private final ICodeGeneratorService codeGeneratorService;
 
     @Transactional
@@ -121,7 +121,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Transactional(readOnly = true)
     @Override
     public UserDTO me() {
-        return conversionService.convert(
-                userService.findByEmail(userHolder.getUser().getUsername()), UserDTO.class);
+        return conversionService.convert(userService
+                .findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()), UserDTO.class);
     }
 }

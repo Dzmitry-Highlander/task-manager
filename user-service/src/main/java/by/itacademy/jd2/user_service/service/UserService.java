@@ -1,5 +1,7 @@
 package by.itacademy.jd2.user_service.service;
 
+import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
 import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
@@ -13,9 +15,9 @@ import by.itacademy.jd2.user_service.service.exception.VersionsNotMatchException
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +25,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-@Validated
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private static final String USER_EXISTS_ERROR = "Пользователь с таким email уже зарегистрирован";
@@ -40,16 +41,15 @@ public class UserService implements IUserService {
 
     @Transactional
     @Override
-    public User create(@Valid UserCreateDTO item) {
+    public User create(UserCreateDTO item) {
         userRepository.findByEmail(item.getEmail())
                 .ifPresent(e -> {
                     throw new EmailAlreadyTakenException(USER_EXISTS_ERROR);
                 });
 
-        User user = userRepository.save(
-                Objects.requireNonNull(conversionService.convert(item, User.class)));
+        User user = userRepository.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
 
-        auditService.send(USER_CREATION_REQUEST, user.getUuid().toString());
+        auditService.send(getRequestingUserShortDTO(), USER_CREATION_REQUEST, user.getUuid().toString());
 
         return user;
     }
@@ -57,7 +57,7 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     @Override
     public List<User> read() {
-        auditService.send(ALL_DATA_REQUEST, "all");
+        auditService.send(getRequestingUserShortDTO(), ALL_DATA_REQUEST, "all");
 
         return userRepository.findAll();
     }
@@ -68,14 +68,14 @@ public class UserService implements IUserService {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
-        auditService.send(UUID_DATA_REQUEST, uuid.toString());
+        auditService.send(getRequestingUserShortDTO(), UUID_DATA_REQUEST, uuid.toString());
 
         return user;
     }
 
     @Transactional
     @Override
-    public User update(UUID uuid, LocalDateTime version, @Valid UserUpdateDTO item) {
+    public User update(UUID uuid, LocalDateTime version, UserUpdateDTO item) {
         User user = userRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND_ERROR));
 
@@ -87,7 +87,7 @@ public class UserService implements IUserService {
         user.setRole(item.getRole());
         user.setStatus(item.getStatus());
 
-        auditService.send(UPDATE_DATA_REQUEST, uuid.toString());
+        auditService.send(getRequestingUserShortDTO(), UPDATE_DATA_REQUEST, uuid.toString());
 
         return userRepository.save(user);
     }
@@ -107,5 +107,18 @@ public class UserService implements IUserService {
 
         user.setStatus(EUserStatus.ACTIVATED);
         userRepository.save(user);
+    }
+
+    private UserShortDTO getRequestingUserShortDTO() {
+        User requestingUser = userRepository.findByEmail(
+                SecurityContextHolder.getContext().getAuthentication().getName())
+                .orElse(User.builder()
+                        .email("SYSTEM")
+                        .fio("SYSTEM")
+                        .role(EUserRole.ROLE_USER)
+                        .build()
+                );
+
+        return conversionService.convert(requestingUser, UserShortDTO.class);
     }
 }

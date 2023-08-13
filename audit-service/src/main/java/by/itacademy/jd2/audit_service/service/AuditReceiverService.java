@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import java.util.Objects;
 
 @Service
-@Validated
 @RequiredArgsConstructor
 public class AuditReceiverService implements IAuditReceiverService {
     private final ConversionService conversionService;
@@ -22,7 +21,7 @@ public class AuditReceiverService implements IAuditReceiverService {
 
     @Transactional
     @Override
-    public Audit save(@Valid AuditCreateDTO item) {
+    public Audit save(AuditCreateDTO item) {
         return auditRepository.save(Objects.requireNonNull(conversionService.convert(item, Audit.class)));
     }
 }

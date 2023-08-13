@@ -22,7 +22,6 @@ import java.util.List;
 
 @Configuration
 @EnableWebMvc
-@AllArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {

@@ -1,6 +1,6 @@
 package by.itacademy.jd2.user_service.core.dto;
 
-import by.itacademy.jd2.user_service.core.enums.EUserRole;
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -24,6 +24,6 @@ public class UserCreateDTO {
     private EUserStatus status;
 
     @NotEmpty(message = "Password can't be empty")
-    @Size(min = 4, max = 20, message = "Password length must be from 4 till 20 symbols")
+    @Size(min = 4, message = "Password length must be from 4 till 20 symbols")
     private String password;
 }
