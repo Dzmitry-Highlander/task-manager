@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.service;
 
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.dto.*;
-import by.itacademy.jd2.user_service.core.enums.EUserRole;
 import by.itacademy.jd2.user_service.core.enums.EUserStatus;
 import by.itacademy.jd2.user_service.dao.api.IActivatorRepository;
 import by.itacademy.jd2.user_service.dao.entity.Activator;
@@ -12,6 +12,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class AuthenticationService implements IAuthenticationService {
     private static final String EMAIL_OR_PASSWORD_ERROR = "Вы ввели неверный email или пароль";
     private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
-    private static final String VERIFICATION_FAILED = "Сервер не смог корректно обработать запрос. Пожалуйста " +
-            "обратитесь к администратору";
+    private static final String VERIFICATION_FAILED = "Верификация провалена";
 
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -37,7 +37,6 @@ public class AuthenticationService implements IAuthenticationService {
     private final IUserService userService;
     private final IActivatorRepository activatorRepository;
     private final IMailSenderService mailSenderService;
-    private final IUserHolder userHolder;
     private final ICodeGeneratorService codeGeneratorService;
 
     @Transactional
@@ -107,6 +106,7 @@ public class AuthenticationService implements IAuthenticationService {
 
         if (Objects.equals(code, activator.getCode())) {
             UserCreateDTO userUpdate = UserCreateDTO.builder()
+                    .email(user.getEmail())
                     .role(user.getRole())
                     .build();
 
@@ -121,7 +121,7 @@ public class AuthenticationService implements IAuthenticationService {
     @Transactional(readOnly = true)
     @Override
     public UserDTO me() {
-        return conversionService.convert(
-                userService.findByEmail(userHolder.getUser().getUsername()), UserDTO.class);
+        return conversionService.convert(userService
+                .findByEmail(SecurityContextHolder.getContext().getAuthentication().getName()), UserDTO.class);
     }
 }

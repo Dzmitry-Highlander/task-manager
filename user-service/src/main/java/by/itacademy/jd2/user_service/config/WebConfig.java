@@ -1,6 +1,5 @@
 package by.itacademy.jd2.user_service.config;
 
-import by.itacademy.jd2.user_service.config.formatter.LongToLocalDateTimeFormatter;
 import by.itacademy.jd2.user_service.service.converter.*;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -29,7 +28,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(new UserDTOToUserConverter());
         registry.addConverter(new ActivatorCreateDTOtoActivatorConverter());
         registry.addConverter(new UserCreateDTOTOUserConverter());
-        registry.addFormatter(new LongToLocalDateTimeFormatter());
+        registry.addConverter(new LongToDateTimeConverter());
+        registry.addConverter(new UserToUserShortDTOConverter());
     }
 
     @Override

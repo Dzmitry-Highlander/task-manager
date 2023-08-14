@@ -1,9 +1,8 @@
 FROM eclipse-temurin:17-jdk-jammy
+MAINTAINER ITAcademy
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:resolve
+ADD ./target/user-service.jar /app/
 
-COPY src ./src
+CMD ["java", "-Xmx200m", "-jar", "/app/user-service.jar"]
 
-CMD ["./mvnw", "spring-boot:run"]
+EXPOSE 8080 8089

@@ -26,13 +26,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorizeHttpRequests) ->
                         authorizeHttpRequests
-                                //TODO настроить все согласно OpenApi
-                                .requestMatchers("/api/v1/users/registration")
+                                .requestMatchers(
+                                        "/users/registration",
+                                        "/users/login",
+                                        "/users/registration/confirm"
+                                )
                                 .permitAll()
-                                .requestMatchers("/api/v1/users/login")
-                                .permitAll()
-                                .requestMatchers("/api/v1/users/registration/confirm")
-                                .permitAll()
+                                .requestMatchers("/users/me")
+                                .authenticated()
+                                .requestMatchers(
+                                        "/users/*/dt_update/*",
+                                        "/users/*",
+                                        "/users")
+                                .hasAnyRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

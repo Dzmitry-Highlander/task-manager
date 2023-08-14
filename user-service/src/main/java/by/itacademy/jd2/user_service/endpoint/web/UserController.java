@@ -2,19 +2,24 @@ package by.itacademy.jd2.user_service.endpoint.web;
 
 import by.itacademy.jd2.user_service.core.dto.UserCreateDTO;
 import by.itacademy.jd2.user_service.core.dto.UserDTO;
+import by.itacademy.jd2.user_service.core.dto.UserUpdateDTO;
 import by.itacademy.jd2.user_service.dao.entity.User;
 import by.itacademy.jd2.user_service.service.api.IUserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
+@Validated
 @RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
@@ -32,14 +37,14 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> get(@PathVariable UUID id) {
-        var user = conversionService.convert(userService.read(id), UserDTO.class);
+    public ResponseEntity<?> get(@PathVariable("uuid") UUID uuid) {
+        var user = conversionService.convert(userService.read(uuid), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> post(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<?> post(@Valid @RequestBody UserCreateDTO dto) {
         var user = conversionService.convert(userService.create(dto), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -47,11 +52,11 @@ public class UserController {
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     public ResponseEntity<?> update(
-            @PathVariable UUID uuid,
-            //TODO Formatter в чате, относится к настройкам Long -> LocalDateTime
-            @PathVariable("dt_update") Long updateDate,
-            @RequestBody UserCreateDTO userCreateDTO) {
-        var user = this.conversionService.convert(userService.update(uuid, updateDate, userCreateDTO), UserDTO.class);
+            @PathVariable("uuid") UUID uuid,
+            @PathVariable("dt_update") String updateDate,
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+        var version = conversionService.convert(updateDate, LocalDateTime.class);
+        var user = conversionService.convert(userService.update(uuid, version, userUpdateDTO), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
     }

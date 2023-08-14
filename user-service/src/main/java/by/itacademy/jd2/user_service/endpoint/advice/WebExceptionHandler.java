@@ -9,7 +9,6 @@ import by.itacademy.jd2.user_service.service.exception.VersionsNotMatchException
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -22,10 +21,9 @@ import java.util.Map;
 public class WebExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String DATA_NOT_CORRECT_ERROR =
             "Запрос содержит некорректные данные. Измените запрос и отправьте его еще раз";
-    private static final String INTERNAL_SERVER_ERROR = "Внутренняя ошибка сервера. Попробуйте позже";
-    private static final String ITEM_NOT_FOUND_ERROR = "Невозможно найти пользователя с таким ";
-    private static final String EMAIL_ALREADY_EXISTS_ERROR = "Пользователь с такой почтой уже зарегистрирован: ";
-    private static final String VERSIONS_NOT_MATCH_ERROR = "Текущая версия не совпадает с указанной";
+    private static final String INTERNAL_SERVER_ERROR =
+            "Сервер не смог корректно обработать запрос. Пожалуйста обратитесь к администратору";
+    private static final String INVALID_ARGUMENT_ERROR = "Запрос содержит некорректные символы";
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<StructuredErrorResponseDTO> handleInvalidArgument(ConstraintViolationException exception){
@@ -34,7 +32,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, String> errors = response.getErrors();
 
         exception.getConstraintViolations()
-                .forEach(v -> errors.put(v.getPropertyPath().toString(), v.getMessage()));
+                .forEach(v -> errors.put(v.getPropertyPath().toString(), INVALID_ARGUMENT_ERROR));
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -54,9 +52,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ItemNotFoundException.class)
     public ResponseEntity<ErrorResponseDTO> handleItemNotFoundError(ItemNotFoundException exception){
-        ErrorResponseDTO response = new ErrorResponseDTO(
-                EErrorType.ERROR, ITEM_NOT_FOUND_ERROR + exception.getItem()
-        );
+        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, DATA_NOT_CORRECT_ERROR);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -67,21 +63,21 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
                 EErrorType.STRUCTURED_ERROR, new HashMap<>()
         );
 
-        response.getErrors().put("email", EMAIL_ALREADY_EXISTS_ERROR + exception.getEmail());
+        response.getErrors().put("email", INVALID_ARGUMENT_ERROR);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(VersionsNotMatchException.class)
     public ResponseEntity<ErrorResponseDTO> handleVersionsMathError(VersionsNotMatchException exception){
-        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, VERSIONS_NOT_MATCH_ERROR);
+        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, DATA_NOT_CORRECT_ERROR);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<ErrorResponseDTO> handleNumberFormatError(NumberFormatException exception){
-        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, INTERNAL_SERVER_ERROR);
+        ErrorResponseDTO response = new ErrorResponseDTO(EErrorType.ERROR, DATA_NOT_CORRECT_ERROR);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

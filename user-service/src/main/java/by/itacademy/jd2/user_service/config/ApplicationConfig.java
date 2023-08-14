@@ -16,12 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
+    private static final String USER_NOT_FOUND_ERROR = "Пользователь с таким email не найден";
+
     private final IUserRepository repository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> repository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found!")); //TODO Exception
+                .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_ERROR));
     }
 
     @Bean

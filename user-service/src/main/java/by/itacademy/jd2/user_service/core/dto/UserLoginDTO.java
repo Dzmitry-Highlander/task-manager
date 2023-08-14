@@ -1,7 +1,7 @@
 package by.itacademy.jd2.user_service.core.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -11,10 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class UserLoginDTO {
     @Email(message = "Enter a valid email")
-    @NotBlank(message = "Email can't be empty")
+    @NotEmpty(message = "Email can't be empty")
     private String email;
 
-    @NotBlank(message = "Password can't be empty")
+    @NotEmpty(message = "Password can't be empty")
     @Size(min = 4, max = 20, message = "Password length must be from 4 till 20 symbols")
     private String password;
 }
