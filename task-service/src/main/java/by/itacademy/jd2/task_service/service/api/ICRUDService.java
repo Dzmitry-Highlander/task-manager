@@ -1,5 +1,8 @@
 package by.itacademy.jd2.task_service.service.api;
 
+import by.itacademy.jd2.task_service.core.dto.ProjectUpdateDTO;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,5 +13,5 @@ public interface ICRUDService<T, S> {
 
     T read(UUID uuid);
 
-    T update(UUID uuid, Long version, S item);
+    T update(UUID uuid, LocalDateTime version, ProjectUpdateDTO item);
 }

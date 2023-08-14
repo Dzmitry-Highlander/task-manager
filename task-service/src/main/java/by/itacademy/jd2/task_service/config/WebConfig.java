@@ -1,5 +1,6 @@
 package by.itacademy.jd2.task_service.config;
 
+import by.itacademy.jd2.task_service.service.converter.LongToDateTimeConverter;
 import by.itacademy.jd2.task_service.service.converter.ProjectCreateDTOToProjectConverter;
 import by.itacademy.jd2.task_service.service.converter.TaskSaveDTOToTaskConverter;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -25,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new ProjectCreateDTOToProjectConverter());
         registry.addConverter(new TaskSaveDTOToTaskConverter());
+        registry.addConverter(new LongToDateTimeConverter());
     }
 
     @Override

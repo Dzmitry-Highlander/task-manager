@@ -9,9 +9,12 @@ import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +51,11 @@ public class ProjectService implements IProjectService {
 
     @Transactional
     @Override
-    public Project update(UUID uuid, Long version, ProjectCreateDTO item) {
+    public Project update(UUID uuid, LocalDateTime version, ProjectCreateDTO item) {
         Project project = projectRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(PROJECT_NOT_FOUND_ERROR));
 
-        if (!version.equals(project.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())) {
+        if (!version.equals(project.getUpdateDate())) {
             throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 
@@ -70,5 +73,11 @@ public class ProjectService implements IProjectService {
         project.setStatus(item.getStatus());
 
         return projectRepository.save(project);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Project> read(int page, int size, boolean archived) {
+        return null;
     }
 }

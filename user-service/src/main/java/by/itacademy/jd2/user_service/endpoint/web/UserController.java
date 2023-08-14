@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> get(@PathVariable UUID uuid) {
+    public ResponseEntity<?> get(@PathVariable("uuid") UUID uuid) {
         var user = conversionService.convert(userService.read(uuid), UserDTO.class);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
