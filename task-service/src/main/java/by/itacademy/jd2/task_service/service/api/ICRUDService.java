@@ -1,7 +1,5 @@
 package by.itacademy.jd2.task_service.service.api;
 
-import by.itacademy.jd2.task_service.core.dto.ProjectUpdateDTO;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
