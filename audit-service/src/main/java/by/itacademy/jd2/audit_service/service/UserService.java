@@ -11,6 +11,6 @@ public class UserService {
     private final IUserFeignClient userFeignClient;
 
     public UserShortDTO getMe(String jwt) {
-        return userFeignClient.getUser(jwt).getBody();
+        return this.userFeignClient.getMe("Bearer " + jwt).getBody();
     }
 }

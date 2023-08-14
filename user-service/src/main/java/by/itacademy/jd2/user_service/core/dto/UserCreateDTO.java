@@ -17,10 +17,10 @@ public class UserCreateDTO {
     @NotEmpty(message = "FIO can't be empty")
     private String fio;
 
-    @NotEmpty(message = "Role is mandatory")
+    @NotNull(message = "Role is mandatory")
     private EUserRole role;
 
-    @NotEmpty(message = "Status is mandatory")
+    @NotNull(message = "Status is mandatory")
     private EUserStatus status;
 
     @NotEmpty(message = "Password can't be empty")

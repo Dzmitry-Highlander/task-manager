@@ -21,10 +21,11 @@ public class PageToPageDTOConverter implements Converter<Page<Audit>, PageDTO<Au
         for (Audit entity : page.getContent()) {
             AuditDTO auditDTO = new AuditDTO();
             UserShortDTO userShortDTO = new UserShortDTO();
-            userShortDTO.setUuid(entity.getUuid());
+            userShortDTO.setUuid(entity.getUserId());
             userShortDTO.setEmail(entity.getEmail());
             userShortDTO.setFio(entity.getFio());
             userShortDTO.setRole(entity.getRole());
+
             auditDTO.setUuid(entity.getUuid());
             auditDTO.setCreateDate(entity.getCreateDate()
                     .atZone(ZoneId.systemDefault())

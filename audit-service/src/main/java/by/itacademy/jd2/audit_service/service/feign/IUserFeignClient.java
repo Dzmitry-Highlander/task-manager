@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(name = "user-service", url = "http://user-service:8080/users/me")
 public interface IUserFeignClient {
     @GetMapping
-    ResponseEntity<UserShortDTO> getUser(@RequestHeader("Authorization") String jwt);
+    ResponseEntity<UserShortDTO> getMe(@RequestHeader("Authorization") String jwt);
 }
