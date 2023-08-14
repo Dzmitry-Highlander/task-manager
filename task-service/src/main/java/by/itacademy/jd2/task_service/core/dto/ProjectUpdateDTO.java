@@ -4,11 +4,16 @@ import by.itacademy.jd2.task_service.core.enums.EProjectStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProjectUpdateDTO {
     @NotNull(message = "Идентификатор проекта обязателен")
     private UUID uuid;

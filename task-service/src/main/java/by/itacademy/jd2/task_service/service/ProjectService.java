@@ -1,6 +1,7 @@
 package by.itacademy.jd2.task_service.service;
 
 import by.itacademy.jd2.task_service.core.dto.ProjectCreateDTO;
+import by.itacademy.jd2.task_service.core.dto.ProjectUpdateDTO;
 import by.itacademy.jd2.task_service.core.dto.UserRefDTO;
 import by.itacademy.jd2.task_service.dao.api.IProjectRepository;
 import by.itacademy.jd2.task_service.dao.entity.Project;
@@ -10,12 +11,10 @@ import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +50,7 @@ public class ProjectService implements IProjectService {
 
     @Transactional
     @Override
-    public Project update(UUID uuid, LocalDateTime version, ProjectCreateDTO item) {
+    public Project update(UUID uuid, LocalDateTime version, ProjectUpdateDTO item) {
         Project project = projectRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(PROJECT_NOT_FOUND_ERROR));
 
