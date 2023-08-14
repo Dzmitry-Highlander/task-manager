@@ -1,6 +1,7 @@
 package by.itacademy.jd2.task_service.service;
 
 import by.itacademy.jd2.task_service.core.dto.TaskSaveDTO;
+import by.itacademy.jd2.task_service.core.dto.TaskUpdateDTO;
 import by.itacademy.jd2.task_service.dao.api.ITaskRepository;
 import by.itacademy.jd2.task_service.dao.entity.Task;
 import by.itacademy.jd2.task_service.service.api.ITaskService;
@@ -11,6 +12,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
@@ -46,11 +48,11 @@ public class TaskService implements ITaskService {
 
     @Transactional
     @Override
-    public Task update(UUID uuid, Long version, TaskSaveDTO item) {
+    public Task update(UUID uuid, LocalDateTime version, TaskUpdateDTO item) {
         Task task = taskRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(TASK_NOT_FOUND_ERROR));
 
-        if (!version.equals(task.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())) {
+        if (!version.equals(task.getUpdateDate())) {
             throw new VersionsNotMatchException(VERSIONS_NOT_MATCH_ERROR);
         }
 

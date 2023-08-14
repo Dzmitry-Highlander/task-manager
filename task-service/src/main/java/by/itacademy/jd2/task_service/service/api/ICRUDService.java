@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-public interface ICRUDService<T, S> {
+public interface ICRUDService<T, S, M> {
     T create(S item);
 
     List<T> read();
 
     T read(UUID uuid);
 
-    T update(UUID uuid, LocalDateTime version, ProjectUpdateDTO item);
+    T update(UUID uuid, LocalDateTime version, M item);
 }

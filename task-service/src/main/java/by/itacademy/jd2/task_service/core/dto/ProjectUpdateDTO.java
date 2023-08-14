@@ -18,6 +18,9 @@ public class ProjectUpdateDTO {
     @NotNull(message = "Идентификатор проекта обязателен")
     private UUID uuid;
 
+    @NotNull(message = "Версия проекта обязательна")
+    private LocalDateTime updateDate;
+
     @NotBlank(message = "Имя проекта обязательно")
     @Size(max = 255, message = "Максимальный размер имени проекта 255 символов")
     private String name;
@@ -31,7 +34,4 @@ public class ProjectUpdateDTO {
 
     @NotNull(message = "Статус проекта обязателен")
     private EProjectStatus status;
-
-    @NotNull(message = "Версия проекта обязательна")
-    private LocalDateTime updateDate;
 }

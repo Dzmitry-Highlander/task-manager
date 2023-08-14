@@ -24,7 +24,7 @@ public class AuditController {
     public ResponseEntity<?> list(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "20") @PositiveOrZero int size) {
-        PageDTO<AuditDTO> pageOfAuditDTO = conversionService.convert(
+        PageDTO<AuditDTO> pageOfAuditDTO = conversionService.convert( //TODO как лучше конвертировать?
                 auditService.read(PageRequest.of(page, size)), PageDTO.class
         );
 
