@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskSaveDTO {
+public class TaskCreateMyDTO {
     @NotBlank(message = "ProjectRef can't be empty")
     private ProjectRefDTO project;
 

@@ -1,5 +1,6 @@
 package by.itacademy.jd2.audit_service.endpoint.web;
 
+import by.itacademy.jd2.audit_service.service.util.PageConverter;
 import by.itacademy.jd2.base_package.core.dto.PageDTO;
 import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.service.api.IAuditService;
@@ -24,11 +25,11 @@ public class AuditController {
     public ResponseEntity<?> list(
             @RequestParam(defaultValue = "0") @PositiveOrZero int page,
             @RequestParam(defaultValue = "20") @PositiveOrZero int size) {
-        PageDTO<AuditDTO> pageOfAuditDTO = conversionService.convert( //TODO как лучше конвертировать?
-                auditService.read(PageRequest.of(page, size)), PageDTO.class
+        PageDTO<AuditDTO> pageDTO = PageConverter.convert(
+                auditService.read(PageRequest.of(page, size)), conversionService
         );
 
-        return new ResponseEntity<>(pageOfAuditDTO, HttpStatus.OK);
+        return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
     @GetMapping("/audit/{uuid}")

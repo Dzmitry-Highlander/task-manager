@@ -21,11 +21,10 @@ import java.util.UUID;
 public class ProjectController {
     private final IProjectService projectService;
     private final ConversionService conversionService;
-    private final PageConverter pageConverter;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ProjectCreateDTO projectCreateDTO) {
-        ProjectDTO dto = conversionService.convert(projectService.create(projectCreateDTO), ProjectDTO.class);
+        var dto = conversionService.convert(projectService.create(projectCreateDTO), ProjectDTO.class);
 
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -36,8 +35,9 @@ public class ProjectController {
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(defaultValue = "false") boolean archived
     ) {
-        PageDTO<ProjectDTO> projectPageDTO = pageConverter.convertPageToDTO(
-                projectService.read(page, size, archived), ProjectDTO.class
+        PageDTO<ProjectDTO> projectPageDTO = PageConverter.convert(
+                projectService.read(page, size, archived), ProjectDTO.class,
+                conversionService
         );
 
         return new ResponseEntity<>(projectPageDTO, HttpStatus.OK);

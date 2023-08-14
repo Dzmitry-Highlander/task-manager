@@ -6,21 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectUpdateDTO {
-    @NotNull(message = "Идентификатор проекта обязателен")
-    private UUID uuid;
-
-    @NotNull(message = "Версия проекта обязательна")
-    private LocalDateTime updateDate;
-
     @NotBlank(message = "Имя проекта обязательно")
     @Size(max = 255, message = "Максимальный размер имени проекта 255 символов")
     private String name;

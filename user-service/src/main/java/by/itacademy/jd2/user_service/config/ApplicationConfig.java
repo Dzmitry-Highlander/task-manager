@@ -21,7 +21,7 @@ public class ApplicationConfig {
     private final IUserRepository repository;
 
     @Bean
-    public UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService(IUserRepository repository) {
         return username -> repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_ERROR));
     }
@@ -30,7 +30,7 @@ public class ApplicationConfig {
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(userDetailsService(repository));
         authProvider.setPasswordEncoder(passwordEncoder());
 
         return authProvider;

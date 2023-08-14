@@ -24,7 +24,6 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new PageToPageDTOConverter());
         registry.addConverter(new AuditToAuditDTOConverter());
         registry.addConverter(new AuditCreateDTOToAuditConverter());
     }
