@@ -20,10 +20,12 @@ public class UserService implements IUserService {
         return userFeignClient.getMe("Bearer " + jwt).getBody();
     }
 
+    @Override
     public UserShortDTO get(UserRefDTO user, String jwt) {
         return userFeignClient.get("Bearer " + jwt, user.getUuid()).getBody();
     }
 
+    @Override
     public List<UserShortDTO> get(List<UserRefDTO> staff, String jwt){
         List<UUID> uuids = staff.stream().map(UserRefDTO::getUuid).toList();
 

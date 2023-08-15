@@ -2,7 +2,7 @@ package by.itacademy.jd2.audit_service.endpoint.web;
 
 import by.itacademy.jd2.audit_service.service.util.PageConverter;
 import by.itacademy.jd2.base_package.core.dto.PageDTO;
-import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
+import by.itacademy.jd2.base_package.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.service.api.IAuditService;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;

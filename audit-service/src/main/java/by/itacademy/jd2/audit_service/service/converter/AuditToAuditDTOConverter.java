@@ -1,6 +1,6 @@
 package by.itacademy.jd2.audit_service.service.converter;
 
-import by.itacademy.jd2.audit_service.core.dto.AuditDTO;
+import by.itacademy.jd2.base_package.core.dto.AuditDTO;
 import by.itacademy.jd2.audit_service.dao.entity.Audit;
 import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
 import org.springframework.core.convert.converter.Converter;
