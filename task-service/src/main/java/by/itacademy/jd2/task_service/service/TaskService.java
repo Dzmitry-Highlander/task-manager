@@ -1,11 +1,16 @@
 package by.itacademy.jd2.task_service.service;
 
+import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
+import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.task_service.core.dto.*;
 import by.itacademy.jd2.task_service.core.enums.ETaskStatus;
 import by.itacademy.jd2.task_service.core.specification.TaskSpecifications;
 import by.itacademy.jd2.task_service.dao.api.ITaskRepository;
+import by.itacademy.jd2.task_service.dao.entity.Project;
 import by.itacademy.jd2.task_service.dao.entity.Task;
+import by.itacademy.jd2.task_service.service.api.IProjectService;
 import by.itacademy.jd2.task_service.service.api.ITaskService;
+import by.itacademy.jd2.task_service.service.api.IUserService;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
 import lombok.AllArgsConstructor;
@@ -13,13 +18,12 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +33,8 @@ public class TaskService implements ITaskService {
     private static final String INCORRECT_DATA_ERROR = "Некорректные данные";
 
     private final ITaskRepository taskRepository;
+    private final IProjectService projectService;
+    private final IUserService userService;
     private final ConversionService conversionService;
 
     @Transactional(readOnly = true)
@@ -38,7 +44,7 @@ public class TaskService implements ITaskService {
             throw new IllegalArgumentException(INCORRECT_DATA_ERROR);
         }
 
-        UserDTO user = userHolder.getUser();
+        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
         List<ProjectRefDTO> availableProjects = this.getFilteredProjectRefs(user, filterDTO);
         filterDTO.setProject(availableProjects);
 
@@ -99,5 +105,31 @@ public class TaskService implements ITaskService {
         task.setStatus(item.getStatus());
 
         return taskRepository.save(task);
+    }
+
+    @Transactional(readOnly = true)
+    private List<ProjectRefDTO> getFilteredProjectRefs(UserShortDTO user, FilterDTO filterDTO) {
+        if (filterDTO.getProject() == null){
+            List<Project> userProjects = this.projectService.findAllByUser(user.getUuid());
+
+            return userProjects.stream().map(p -> new ProjectRefDTO(p.getUuid())).toList();
+        }
+
+        if(!user.getRole().equals(EUserRole.ROLE_ADMIN)) {
+            List<ProjectRefDTO> availableProjects = new ArrayList<>();
+
+            for (ProjectRefDTO dto : filterDTO.getProject()) {
+                Project project = projectService.read(dto.getUuid());
+                List<UUID> staff = project.getStuff();
+
+                if (staff.contains(user.getUuid()) || project.getManager().equals(user.getUuid())) {
+                    availableProjects.add(dto);
+                }
+            }
+
+            return availableProjects;
+        }
+
+        return filterDTO.getProject();
     }
 }
