@@ -79,4 +79,10 @@ public class ProjectService implements IProjectService {
     public Page<Project> read(int page, int size, boolean archived) {
         return null;
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Project> readAllByUser(UUID uuid) {
+        return projectRepository.findAllByStaffContains(uuid);
+    }
 }

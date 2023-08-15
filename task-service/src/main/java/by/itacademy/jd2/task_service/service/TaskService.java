@@ -46,6 +46,7 @@ public class TaskService implements ITaskService {
 
         UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
         List<ProjectRefDTO> availableProjects = this.getFilteredProjectRefs(user, filterDTO);
+
         filterDTO.setProject(availableProjects);
 
         if (filterDTO.getImplementer() == null) {
@@ -62,9 +63,11 @@ public class TaskService implements ITaskService {
             );
         }
 
-        Specification<Task> specification = Specification.where(TaskSpecifications.byProject(filterDTO.getProject()))
+        Specification<Task> specification = Specification.where(
+                TaskSpecifications.byProject(filterDTO.getProject()))
                 .and(TaskSpecifications.byImplementer(filterDTO.getImplementer()))
-                .and(TaskSpecifications.byStatus(filterDTO.getStatus()));
+                .and(TaskSpecifications.byStatus(filterDTO.getStatus())
+                );
 
         return taskRepository.findAll(specification, PageRequest.of(page, size));
     }
@@ -110,7 +113,7 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     private List<ProjectRefDTO> getFilteredProjectRefs(UserShortDTO user, FilterDTO filterDTO) {
         if (filterDTO.getProject() == null){
-            List<Project> userProjects = this.projectService.findAllByUser(user.getUuid());
+            List<Project> userProjects = projectService.readAllByUser(user.getUuid());
 
             return userProjects.stream().map(p -> new ProjectRefDTO(p.getUuid())).toList();
         }
