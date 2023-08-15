@@ -13,7 +13,6 @@ import by.itacademy.jd2.task_service.service.api.ITaskService;
 import by.itacademy.jd2.task_service.service.api.IUserService;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
