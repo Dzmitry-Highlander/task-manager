@@ -14,6 +14,7 @@ import by.itacademy.jd2.task_service.service.api.IUserService;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TaskService implements ITaskService {
     private static final String TASK_NOT_FOUND_ERROR = "Задача с таким uuid не найдена";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
