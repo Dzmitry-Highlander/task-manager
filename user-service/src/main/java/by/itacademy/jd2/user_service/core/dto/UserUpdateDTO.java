@@ -20,6 +20,6 @@ public class UserUpdateDTO {
     @NotNull(message = "Role is mandatory")
     private EUserRole role;
 
-    @NotEmpty(message = "Status is mandatory")
+    @NotNull(message = "Status is mandatory")
     private EUserStatus status;
 }
