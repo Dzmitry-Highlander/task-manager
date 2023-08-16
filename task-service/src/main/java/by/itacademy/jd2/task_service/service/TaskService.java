@@ -33,7 +33,7 @@ public class TaskService implements ITaskService {
     private static final String TASK_NOT_FOUND_ERROR = "Задача с таким uuid не найдена";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
     private static final String INCORRECT_DATA_ERROR = "Некорректные данные";
-    private static final String TASKS_TAPE_REQUEST = "Некорректные данные";
+    private static final String TASKS_PAGE_REQUEST = "Запрос страниц(ы) с задачами";
     private static final String TASK_CREATION_REQUEST = "Запрос на создание задачи";
     private static final String ALL_DATA_REQUEST = "Запрошены все данные по задачам";
     private static final String UUID_DATA_REQUEST = "Запрошены данные по UUID задачи";
@@ -77,7 +77,7 @@ public class TaskService implements ITaskService {
                 .and(TaskSpecifications.byStatus(filterDTO.getStatus())
                 );
 
-        auditService.send(me(), TASKS_TAPE_REQUEST, EEssenceType.TASK, user.getUuid().toString());
+        auditService.send(me(), TASKS_PAGE_REQUEST, EEssenceType.TASK, user.getUuid().toString());
 
         return taskRepository.findAll(specification, PageRequest.of(page, size));
     }
@@ -158,7 +158,7 @@ public class TaskService implements ITaskService {
     }
 
     @Transactional(readOnly = true)
-    public UserShortDTO me() {
+    private UserShortDTO me() {
         return conversionService.convert(userService
                 .getMe(SecurityContextHolder.getContext().getAuthentication().getName()), UserShortDTO.class);
     }
