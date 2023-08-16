@@ -13,14 +13,10 @@ import java.util.UUID;
 @FeignClient(name = "audit-service", url = "http://audit-service:8080")
 public interface IAuditFeignClient {
     @PostMapping("/internal/audit")
-    ResponseEntity<?> save(
-            @RequestHeader("Authorization") String jwt,
-            @RequestBody AuditCreateDTO auditCreateDTO
-    );
+    ResponseEntity<?> send(@RequestBody AuditCreateDTO auditCreateDTO);
 
     @GetMapping("/internal/audit/find")
     ResponseEntity<List<AuditDTO>> getByParam(
-            @RequestHeader("Authorization") String jwt,
             @RequestParam UUID uuid,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate

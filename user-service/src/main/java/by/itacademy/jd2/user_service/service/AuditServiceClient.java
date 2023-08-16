@@ -4,18 +4,18 @@ import by.itacademy.jd2.base_package.core.dto.AuditCreateDTO;
 import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
 import by.itacademy.jd2.base_package.core.enums.EEssenceType;
 import by.itacademy.jd2.user_service.service.api.IAuditService;
-import by.itacademy.jd2.user_service.service.feign.IAuditServiceClient;
+import by.itacademy.jd2.user_service.service.feign.IAuditFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuditServiceClient implements IAuditService {
-    private final IAuditServiceClient feignClientService;
+    private final IAuditFeignClient auditFeignClient;
 
     @Override
     public void send(UserShortDTO userShortDTO, String text, String id) {
-        feignClientService.send(
+        auditFeignClient.send(
                 AuditCreateDTO.builder()
                         .user(userShortDTO)
                         .text(text)

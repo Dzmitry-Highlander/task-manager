@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 //TODO refactor connection to audit-service
 @FeignClient(name = "audit-service", url = "http://audit-service:8080/internal/audit")
-public interface IAuditServiceClient {
+public interface IAuditFeignClient {
     @PostMapping
     void send(@RequestBody AuditCreateDTO auditCreateDTO);
 }

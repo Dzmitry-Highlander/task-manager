@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public enum EEssenceType {
     USER("Пользователь"),
-    PROJECT("Проект");
+    PROJECT("Проект"),
+    TASK("Задача");
 
     private final String type;
 }

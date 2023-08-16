@@ -1,6 +1,7 @@
 package by.itacademy.jd2.task_service.service;
 
 import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
+import by.itacademy.jd2.base_package.core.enums.EEssenceType;
 import by.itacademy.jd2.base_package.core.enums.EUserRole;
 import by.itacademy.jd2.task_service.core.dto.*;
 import by.itacademy.jd2.task_service.core.enums.ETaskStatus;
@@ -8,6 +9,7 @@ import by.itacademy.jd2.task_service.core.specification.TaskSpecifications;
 import by.itacademy.jd2.task_service.dao.api.ITaskRepository;
 import by.itacademy.jd2.task_service.dao.entity.Project;
 import by.itacademy.jd2.task_service.dao.entity.Task;
+import by.itacademy.jd2.task_service.service.api.IAuditService;
 import by.itacademy.jd2.task_service.service.api.IProjectService;
 import by.itacademy.jd2.task_service.service.api.ITaskService;
 import by.itacademy.jd2.task_service.service.api.IUserService;
@@ -31,10 +33,15 @@ public class TaskService implements ITaskService {
     private static final String TASK_NOT_FOUND_ERROR = "Задача с таким uuid не найдена";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
     private static final String INCORRECT_DATA_ERROR = "Некорректные данные";
+    private static final String TASK_CREATION_REQUEST = "Запрос на создание задачи";
+    private static final String ALL_DATA_REQUEST = "Запрошены все данные по задачам";
+    private static final String UUID_DATA_REQUEST = "Запрошены данные по UUID задачи";
+    private static final String UPDATE_DATA_REQUEST = "Запрос на обновление данных по задаче";
 
     private final ITaskRepository taskRepository;
     private final IProjectService projectService;
     private final IUserService userService;
+    private final IAuditService auditService;
     private final ConversionService conversionService;
 
     @Transactional(readOnly = true)
@@ -68,6 +75,8 @@ public class TaskService implements ITaskService {
                 .and(TaskSpecifications.byImplementer(filterDTO.getImplementer()))
                 .and(TaskSpecifications.byStatus(filterDTO.getStatus())
                 );
+
+        auditService.send(me(), UUID_DATA_REQUEST, EEssenceType.TASK, user.getUuid().toString());
 
         return taskRepository.findAll(specification, PageRequest.of(page, size));
     }
@@ -107,6 +116,8 @@ public class TaskService implements ITaskService {
         task.setProject(item.getProject().getUuid());
         task.setStatus(item.getStatus());
 
+        auditService.send(me(), UPDATE_DATA_REQUEST, EEssenceType.TASK, uuid.toString());
+
         return taskRepository.save(task);
     }
 
@@ -134,5 +145,11 @@ public class TaskService implements ITaskService {
         }
 
         return filterDTO.getProject();
+    }
+
+    @Transactional(readOnly = true)
+    public UserShortDTO me() {
+        return conversionService.convert(userService
+                .getMe(SecurityContextHolder.getContext().getAuthentication().getName()), UserShortDTO.class);
     }
 }
