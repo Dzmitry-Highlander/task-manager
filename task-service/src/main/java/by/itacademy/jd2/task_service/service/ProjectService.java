@@ -45,8 +45,7 @@ public class ProjectService implements IProjectService {
     @Transactional
     @Override
     public Project create(ProjectCreateDTO item) {
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), TASK_CREATION_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), TASK_CREATION_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
         return projectRepository.save(Objects.requireNonNull(conversionService.convert(item, Project.class)));
     }
@@ -54,8 +53,7 @@ public class ProjectService implements IProjectService {
     @Transactional(readOnly = true)
     @Override
     public List<Project> read() {
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), ALL_DATA_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), ALL_DATA_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
         return projectRepository.findAll();
     }
@@ -63,8 +61,7 @@ public class ProjectService implements IProjectService {
     @Transactional(readOnly = true)
     @Override
     public Project read(UUID uuid) {
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), TASK_UUID_DATA_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), TASK_UUID_DATA_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
         return projectRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(PROJECT_NOT_FOUND_ERROR));
@@ -93,8 +90,7 @@ public class ProjectService implements IProjectService {
         project.setStuff(uuids);
         project.setStatus(item.getStatus());
 
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), UPDATE_DATA_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), UPDATE_DATA_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
         return projectRepository.save(project);
     }
@@ -102,8 +98,7 @@ public class ProjectService implements IProjectService {
     @Transactional(readOnly = true)
     @Override
     public Page<Project> read(int page, int size, boolean archived) {
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), PROJECT_PAGE_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), PROJECT_PAGE_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
         return null;
     }
@@ -111,15 +106,14 @@ public class ProjectService implements IProjectService {
     @Transactional(readOnly = true)
     @Override
     public List<Project> readAllByUser(UUID uuid) {
-        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        auditService.send(me(), USER_UUID_DATA_REQUEST, EEssenceType.PROJECT, user.getUuid().toString());
+        auditService.send(me(), USER_UUID_DATA_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
-        return projectRepository.findAllByStaffContains(uuid);
+        return projectRepository.findAllByStuffContains(uuid);
     }
 
     @Transactional(readOnly = true)
     private UserShortDTO me() {
         return conversionService.convert(userService
-                .getMe(SecurityContextHolder.getContext().getAuthentication().getName()), UserShortDTO.class);
+                .getMe(SecurityContextHolder.getContext().getAuthentication().toString()), UserShortDTO.class);
     }
 }

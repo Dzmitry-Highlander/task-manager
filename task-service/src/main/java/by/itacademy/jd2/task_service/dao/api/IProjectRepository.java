@@ -12,5 +12,5 @@ import java.util.UUID;
 public interface IProjectRepository extends ListCrudRepository<Project, UUID> {
     Page<Project> findAllByStatus(PageRequest pageRequest, EProjectStatus status);
 
-    List<Project> findAllByStaffContains(UUID uuid);
+    List<Project> findAllByStuffContains(UUID uuid);
 }
