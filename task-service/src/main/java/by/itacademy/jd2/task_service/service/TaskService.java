@@ -33,6 +33,7 @@ public class TaskService implements ITaskService {
     private static final String TASK_NOT_FOUND_ERROR = "Задача с таким uuid не найдена";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
     private static final String INCORRECT_DATA_ERROR = "Некорректные данные";
+    private static final String TASKS_TAPE_REQUEST = "Некорректные данные";
     private static final String TASK_CREATION_REQUEST = "Запрос на создание задачи";
     private static final String ALL_DATA_REQUEST = "Запрошены все данные по задачам";
     private static final String UUID_DATA_REQUEST = "Запрошены данные по UUID задачи";
@@ -76,7 +77,7 @@ public class TaskService implements ITaskService {
                 .and(TaskSpecifications.byStatus(filterDTO.getStatus())
                 );
 
-        auditService.send(me(), UUID_DATA_REQUEST, EEssenceType.TASK, user.getUuid().toString());
+        auditService.send(me(), TASKS_TAPE_REQUEST, EEssenceType.TASK, user.getUuid().toString());
 
         return taskRepository.findAll(specification, PageRequest.of(page, size));
     }
@@ -84,18 +85,27 @@ public class TaskService implements ITaskService {
     @Transactional
     @Override
     public Task create(TaskCreateMyDTO item) {
+        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
+        auditService.send(me(), TASK_CREATION_REQUEST, EEssenceType.TASK, user.getUuid().toString());
+
         return taskRepository.save(Objects.requireNonNull(conversionService.convert(item, Task.class)));
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Task> read() {
+        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
+        auditService.send(me(), ALL_DATA_REQUEST, EEssenceType.TASK, user.getUuid().toString());
+
         return taskRepository.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
     public Task read(UUID uuid) {
+        UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
+        auditService.send(me(), UUID_DATA_REQUEST, EEssenceType.TASK, user.getUuid().toString());
+
         return taskRepository.findById(uuid)
                 .orElseThrow(() -> new ItemNotFoundException(TASK_NOT_FOUND_ERROR));
     }
