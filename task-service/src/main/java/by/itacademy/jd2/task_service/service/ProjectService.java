@@ -108,7 +108,7 @@ public class ProjectService implements IProjectService {
     public List<Project> readAllByUser(UUID uuid) {
         auditService.send(me(), USER_UUID_DATA_REQUEST, EEssenceType.PROJECT, me().getUuid().toString());
 
-        return projectRepository.findAllByStuffContains(uuid);
+        return projectRepository.findAllByStuff(uuid);
     }
 
     @Transactional(readOnly = true)

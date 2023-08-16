@@ -34,8 +34,8 @@ CREATE TABLE task.task
 CREATE TABLE task.project
 (
     project_id uuid,
-    dt_create timestamp(6) without time zone,
-    dt_update timestamp(6) without time zone,
+    dt_create timestamp(3) without time zone,
+    dt_update timestamp(3) without time zone,
     name character varying(255) NOT NULL,
     description character varying(255) NOT NULL,
     manger_id uuid,
