@@ -47,6 +47,7 @@ public class UserService implements IUserService {
                     throw new EmailAlreadyTakenException(USER_EXISTS_ERROR);
                 });
 
+        //TODO не зашифровывается пароль при создании пользователя администратором
         User user = userRepository.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
 
         auditService.send(getRequestingUserShortDTO(), USER_CREATION_REQUEST, user.getUuid().toString());

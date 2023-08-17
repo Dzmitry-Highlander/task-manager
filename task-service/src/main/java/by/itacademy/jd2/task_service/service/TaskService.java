@@ -53,7 +53,7 @@ public class TaskService implements ITaskService {
         }
 
         UserShortDTO user = userService.getMe(SecurityContextHolder.getContext().getAuthentication().toString());
-        List<ProjectRefDTO> availableProjects = this.getFilteredProjectRefs(user, filterDTO);
+        List<ProjectRefDTO> availableProjects = getFilteredProjectRefs(user, filterDTO);
 
         filterDTO.setProject(availableProjects);
 

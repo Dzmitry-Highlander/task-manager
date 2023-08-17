@@ -25,7 +25,7 @@ public class UserController {
     private final IUserService userService;
     private final ConversionService conversionService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<?> get() {
         var dtoList = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> post(@Valid @RequestBody UserCreateDTO dto) {
         var user = conversionService.convert(userService.create(dto), UserDTO.class);
 
@@ -54,7 +54,8 @@ public class UserController {
     public ResponseEntity<?> update(
             @PathVariable("uuid") UUID uuid,
             @PathVariable("dt_update") String updateDate,
-            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO
+    ) {
         var version = conversionService.convert(updateDate, LocalDateTime.class);
         var user = conversionService.convert(userService.update(uuid, version, userUpdateDTO), UserDTO.class);
 

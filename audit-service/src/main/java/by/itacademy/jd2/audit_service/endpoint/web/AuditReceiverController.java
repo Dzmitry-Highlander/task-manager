@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuditReceiverController {
     private final IAuditReceiverService auditReceiverService;
 
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody AuditCreateDTO auditCreateDTO){
         auditReceiverService.save(auditCreateDTO);
 

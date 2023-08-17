@@ -81,4 +81,6 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    //TODO при вводе некорректных данных Version не отлавливает Exception, handleVersionsMathError()
 }

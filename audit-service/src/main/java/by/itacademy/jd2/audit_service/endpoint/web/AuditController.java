@@ -32,7 +32,7 @@ public class AuditController {
         return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/audit/{uuid}")
+    @GetMapping("/{uuid}")
     public ResponseEntity<AuditDTO> findById(@PathVariable UUID uuid) {
         AuditDTO dto = conversionService.convert(auditService.read(uuid), AuditDTO.class);
 
