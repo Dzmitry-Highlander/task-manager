@@ -22,6 +22,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new ProjectToProjectDTOConverter());
         registry.addConverter(new ProjectCreateDTOToProjectConverter());
         registry.addConverter(new ProjectUpdateToProjectConverter());
         registry.addConverter(new TaskCreateDTOToTaskConverter());

@@ -38,7 +38,7 @@ public class SecurityConfig {
                                         "/users/*/dt_update/*",
                                         "/users/*",
                                         "/users")
-                                .hasAnyRole("ADMIN")
+                                .authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )

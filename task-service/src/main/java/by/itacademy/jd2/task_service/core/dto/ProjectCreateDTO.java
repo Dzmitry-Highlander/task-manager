@@ -20,7 +20,7 @@ public class ProjectCreateDTO {
 
     private String description;
 
-    @NotBlank(message = "UserRef can't be empty")
+    @NotNull(message = "UserRef can't be null")
     private UserRefDTO manager;
 
     private List<UserRefDTO> staff;
