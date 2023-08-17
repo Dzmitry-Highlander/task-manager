@@ -1,5 +1,6 @@
 package by.itacademy.jd2.task_service.service.feign;
 
+import by.itacademy.jd2.base_package.core.dto.UserDTO;
 import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

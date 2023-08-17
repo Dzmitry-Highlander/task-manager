@@ -19,7 +19,7 @@ public class ProjectDTO {
     private Long updateDate;
     private String name;
     private String description;
-    private UserRefDTO manager;
-    private List<UserRefDTO> staff;
+    private UUID manager;
+    private List<UUID> staff;
     private EProjectStatus status;
 }

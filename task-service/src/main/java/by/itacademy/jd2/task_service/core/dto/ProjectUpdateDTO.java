@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -20,9 +21,9 @@ public class ProjectUpdateDTO {
     private String description;
 
     @NotNull(message = "Указание менеджера проекта обязательно")
-    private UserRefDTO manager;
+    private UUID manager;
 
-    private List<UserRefDTO> staff;
+    private List<UUID> staff;
 
     @NotNull(message = "Статус проекта обязателен")
     private EProjectStatus status;

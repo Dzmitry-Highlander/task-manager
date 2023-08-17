@@ -6,6 +6,8 @@ import by.itacademy.jd2.task_service.dao.entity.Project;
 import org.springframework.core.convert.converter.Converter;
 
 import java.time.ZoneId;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProjectToProjectDTOConverter implements Converter<Project, ProjectDTO> {
@@ -17,8 +19,8 @@ public class ProjectToProjectDTOConverter implements Converter<Project, ProjectD
                 .updateDate(source.getUpdateDate().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())
                 .name(source.getName())
                 .description(source.getDescription())
-                .manager(new UserRefDTO(source.getManager()))
-                .staff(source.getStuff().stream().map(UserRefDTO::new).collect(Collectors.toList()))
+                .manager(source.getManager())
+                .staff(source.getStuff())
                 .status(source.getStatus())
                 .build();
     }

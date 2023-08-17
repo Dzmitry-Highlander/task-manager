@@ -12,6 +12,4 @@ import java.util.UUID;
 
 public interface IProjectRepository extends JpaRepository<Project, UUID> {
     Page<Project> findAllByStatus(PageRequest pageRequest, EProjectStatus status);
-
-    List<Project> findAllByStuffContains(UUID uuid);
 }

@@ -48,12 +48,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         userEmail = jwtService.extractUserEmail(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserShortDTO userDTO = userService.getMe(jwt);
+            UserShortDTO userShortDTO = userService.getMe(jwt);
 
             UserDetails userDetails = User.builder()
-                    .username(userDTO.getEmail())
+                    .username(userShortDTO.getEmail())
                     .password("")
-                    .authorities(userDTO.getRole().getRole())
+                    .authorities(userShortDTO.getRole().getRole())
                     .build();
 
             if (jwtService.validate(jwt, userDetails)) {

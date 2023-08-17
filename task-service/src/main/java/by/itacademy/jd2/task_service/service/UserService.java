@@ -8,12 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final IUserFeignClient userFeignClient;
+    private final JwtService jwtService;
 
     @Override
     public UserShortDTO getMe(String jwt) {
@@ -22,13 +22,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserShortDTO get(UserRefDTO user, String jwt) {
-        return userFeignClient.get("Bearer " + jwt, user.getUuid()).getBody();
+        String systemToken = jwtService.generateSystemAccessToken("task-service");
+
+        return userFeignClient.get("Bearer " + systemToken, user.getUuid()).getBody();
     }
 
     @Override
-    public List<UserShortDTO> get(List<UserRefDTO> staff, String jwt){
-        List<UUID> uuids = staff.stream().map(UserRefDTO::getUuid).toList();
-
-        return userFeignClient.get("Bearer " + jwt, uuids).getBody();
+    public List<UserShortDTO> get(List<UserRefDTO> staff, String jwt) {
+        return null;
     }
 }

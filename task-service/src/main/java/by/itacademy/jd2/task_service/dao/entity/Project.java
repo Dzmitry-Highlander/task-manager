@@ -43,7 +43,6 @@ public class Project {
     @Column(name = "manger_id")
     private UUID manager;
 
-    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "stuff_id")
     private List<UUID> stuff;
 

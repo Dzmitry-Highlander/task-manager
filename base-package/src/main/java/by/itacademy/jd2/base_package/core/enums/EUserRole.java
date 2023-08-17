@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public enum EUserRole {
     ROLE_ADMIN("Администратор"),
-    ROLE_USER("Пользователь");
+    ROLE_USER("Пользователь"),
+    ROLE_SYSTEM("Система");
 
     private final String role;
 }

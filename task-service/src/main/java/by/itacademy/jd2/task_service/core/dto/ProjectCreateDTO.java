@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -21,9 +22,9 @@ public class ProjectCreateDTO {
     private String description;
 
     @NotNull(message = "UserRef can't be null")
-    private UserRefDTO manager;
+    private UUID manager;
 
-    private List<UserRefDTO> staff;
+    private List<UUID> staff;
 
     @NotNull(message = "Status is mandatory")
     private EProjectStatus status;

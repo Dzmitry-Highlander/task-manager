@@ -3,6 +3,7 @@ package by.itacademy.jd2.task_service.service;
 import by.itacademy.jd2.task_service.config.property.JWTProperty;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Service
@@ -26,6 +30,20 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
 
         return claimsResolver.apply(claims);
+    }
+
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
+
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS384 )
+                .compact();
     }
 
     public boolean validate(String token, UserDetails userDetails) {
@@ -49,6 +67,16 @@ public class JwtService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String generateSystemAccessToken(String name) {
+        return Jwts.builder()
+                .claim("role", "ROLE_SYSTEM")
+                .setSubject(name)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS384 )
+                .compact();
     }
 
     public Key getSigningKey() {

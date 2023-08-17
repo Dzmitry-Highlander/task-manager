@@ -12,21 +12,11 @@ import java.util.UUID;
 public class ProjectCreateDTOToProjectConverter implements Converter<ProjectCreateDTO, Project> {
     @Override
     public Project convert(ProjectCreateDTO source) {
-        List<UUID> uuids = new ArrayList<>();
-
-        if (source.getStaff() != null) {
-            List<UserRefDTO> stuff = source.getStaff();
-
-            for (UserRefDTO users : stuff) {
-                uuids.add(users.getUuid());
-            }
-        }
-
         return Project.builder()
                 .name(source.getName())
                 .description(source.getDescription())
-                .manager(source.getManager().getUuid())
-                .stuff(uuids)
+                .manager(source.getManager())
+                .stuff(source.getStaff())
                 .status(source.getStatus())
                 .build();
     }

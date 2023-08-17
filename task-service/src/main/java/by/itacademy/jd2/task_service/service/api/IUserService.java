@@ -11,5 +11,4 @@ public interface IUserService {
     UserShortDTO get(UserRefDTO user, String jwt);
 
     List<UserShortDTO> get(List<UserRefDTO> staff, String jwt);
-
 }
