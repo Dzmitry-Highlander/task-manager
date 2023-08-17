@@ -1,14 +1,10 @@
 package by.itacademy.jd2.task_service.service.converter;
 
 import by.itacademy.jd2.task_service.core.dto.ProjectDTO;
-import by.itacademy.jd2.task_service.core.dto.UserRefDTO;
 import by.itacademy.jd2.task_service.dao.entity.Project;
 import org.springframework.core.convert.converter.Converter;
 
 import java.time.ZoneId;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class ProjectToProjectDTOConverter implements Converter<Project, ProjectDTO> {
     @Override

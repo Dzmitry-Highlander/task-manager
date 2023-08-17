@@ -1,13 +1,11 @@
 package by.itacademy.jd2.task_service.service;
 
-import by.itacademy.jd2.base_package.core.dto.UserShortDTO;
 import by.itacademy.jd2.task_service.core.dto.ProjectCreateDTO;
 import by.itacademy.jd2.task_service.core.dto.ProjectUpdateDTO;
 import by.itacademy.jd2.task_service.core.enums.EProjectStatus;
 import by.itacademy.jd2.task_service.dao.api.IProjectRepository;
 import by.itacademy.jd2.task_service.dao.entity.Project;
 import by.itacademy.jd2.task_service.service.api.IProjectService;
-import by.itacademy.jd2.task_service.service.api.IUserService;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,6 @@ public class ProjectService implements IProjectService {
     private static final String PROJECT_SAVE_REQUEST = "Запрос на сохранение проекта";
 
     private final IProjectRepository projectRepository;
-    private final IUserService userService;
     private final ConversionService conversionService;
 
     @Override
@@ -95,9 +92,5 @@ public class ProjectService implements IProjectService {
     @Override
     public List<Project> readAllByUser(UUID uuid) {
         return null;
-    }
-
-    private UserShortDTO getMe(String jwt) {
-        return userService.getMe(jwt);
     }
 }
