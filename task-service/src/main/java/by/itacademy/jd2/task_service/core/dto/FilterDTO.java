@@ -7,13 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilterDTO {
+    private List<UUID> project;
+    private List<UUID> implementer;
     private List<ETaskStatus> status;
-    private List<ProjectRefDTO> project;
-    private List<UserRefDTO> implementer;
 }
