@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,7 @@ public class UserService implements IUserService {
 
     private final IUserRepository userRepository;
     private final IAuditService auditService;
+    private final PasswordEncoder passwordEncoder;
     private final ConversionService conversionService;
 
     @Transactional
@@ -47,7 +49,8 @@ public class UserService implements IUserService {
                     throw new EmailAlreadyTakenException(USER_EXISTS_ERROR);
                 });
 
-        //TODO не зашифровывается пароль при создании пользователя администратором
+        item.setPassword(passwordEncoder.encode(item.getPassword()));
+
         User user = userRepository.save(Objects.requireNonNull(conversionService.convert(item, User.class)));
 
         auditService.send(getRequestingUserShortDTO(), USER_CREATION_REQUEST, user.getUuid().toString());
@@ -116,7 +119,7 @@ public class UserService implements IUserService {
                 .orElse(User.builder()
                         .email("SYSTEM")
                         .fio("SYSTEM")
-                        .role(EUserRole.ROLE_USER)
+                        .role(EUserRole.ROLE_SYSTEM)
                         .build()
                 );
 

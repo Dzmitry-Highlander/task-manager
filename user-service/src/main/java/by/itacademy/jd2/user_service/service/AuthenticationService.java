@@ -30,7 +30,6 @@ public class AuthenticationService implements IAuthenticationService {
     private static final String VERIFICATION_SUCCESS = "Пользователь верифицирован";
     private static final String VERIFICATION_FAILED = "Верификация провалена";
 
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ConversionService conversionService;
@@ -47,7 +46,7 @@ public class AuthenticationService implements IAuthenticationService {
         var user = UserCreateDTO.builder()
                 .fio(request.getFio())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(request.getPassword())
                 .role(EUserRole.ROLE_USER)
                 .status(EUserStatus.WAITING_ACTIVATION)
                 .build();
