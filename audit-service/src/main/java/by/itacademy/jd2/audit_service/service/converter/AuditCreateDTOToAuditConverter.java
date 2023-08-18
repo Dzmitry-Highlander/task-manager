@@ -9,7 +9,7 @@ public class AuditCreateDTOToAuditConverter implements Converter<AuditCreateDTO,
     public Audit convert(AuditCreateDTO source) {
         return Audit.builder()
                 .userId(source.getUser().getUuid())
-                .email(source.getUser().getEmail())
+                .email(source.getUser().getMail())
                 .fio(source.getUser().getFio())
                 .role(source.getUser().getRole())
                 .text(source.getText())

@@ -18,7 +18,7 @@ public class AuditToAuditDTOConverter implements Converter<Audit, AuditDTO> {
                         .toEpochMilli())
                 .user(UserShortDTO.builder()
                         .uuid(source.getUserId())
-                        .email(source.getEmail())
+                        .mail(source.getEmail())
                         .fio(source.getFio())
                         .role(source.getRole())
                         .build())

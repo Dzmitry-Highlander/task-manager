@@ -23,7 +23,7 @@ public class UserShortDTO {
 
     @Email
     @NotEmpty(message = "Email is mandatory")
-    private String email;
+    private String mail;
 
     @NotEmpty(message = "Fio is mandatory")
     private String fio;

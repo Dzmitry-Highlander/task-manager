@@ -9,7 +9,7 @@ public class UserDTOToUserShortDTOConverter implements Converter<UserDTO, UserSh
     public UserShortDTO convert(UserDTO source) {
         return UserShortDTO.builder()
                 .uuid(source.getId())
-                .email(source.getEmail())
+                .mail(source.getEmail())
                 .fio(source.getFio())
                 .role(source.getRole())
                 .build();

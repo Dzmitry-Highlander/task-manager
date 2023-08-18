@@ -8,7 +8,7 @@ public class UserDetailsToUserShortDTOConverter implements Converter<User, UserS
     @Override
     public UserShortDTO convert(User source) {
         return UserShortDTO.builder()
-                .email(source.getUsername())
+                .mail(source.getUsername())
                 .build();
     }
 }

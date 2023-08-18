@@ -12,4 +12,6 @@ public interface IProjectService extends ICRUDService<Project, ProjectCreateDTO,
     Page<Project> read(int page, int size, boolean archived);
 
     List<Project> readAllByUser(UUID uuid);
+
+    boolean ifExist(UUID project, UUID implementer);
 }

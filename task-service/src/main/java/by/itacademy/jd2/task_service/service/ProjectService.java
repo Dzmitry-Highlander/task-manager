@@ -5,7 +5,9 @@ import by.itacademy.jd2.task_service.core.dto.ProjectUpdateDTO;
 import by.itacademy.jd2.task_service.core.enums.EProjectStatus;
 import by.itacademy.jd2.task_service.dao.api.IProjectRepository;
 import by.itacademy.jd2.task_service.dao.entity.Project;
+import by.itacademy.jd2.task_service.service.api.IAuditService;
 import by.itacademy.jd2.task_service.service.api.IProjectService;
+import by.itacademy.jd2.task_service.service.api.IUserHolder;
 import by.itacademy.jd2.task_service.service.exception.ItemNotFoundException;
 import by.itacademy.jd2.task_service.service.exception.VersionsNotMatchException;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +26,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProjectService implements IProjectService {
     private static final String INCORRECT_DATA_ERROR = "Введенные данные некорректны";
-    private static final String PROJECT_NOT_FOUND_ERROR = "Пользователь с таким uuid не найден";
+    private static final String PROJECT_NOT_FOUND_ERROR = "Проект с таким uuid не найден";
     private static final String VERSIONS_NOT_MATCH_ERROR = "Версии не совпадают";
     private static final String PROJECT_SAVE_REQUEST = "Запрос на сохранение проекта";
 
     private final IProjectRepository projectRepository;
+    private final IAuditService auditService;
+    private final IUserHolder userHolder;
     private final ConversionService conversionService;
 
+    @Transactional
     @Override
     public Project create(ProjectCreateDTO item) {
         Project project = projectRepository.save(Objects.requireNonNull(
@@ -40,6 +45,7 @@ public class ProjectService implements IProjectService {
         return project;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Project> read() {
         return null;
@@ -82,15 +88,30 @@ public class ProjectService implements IProjectService {
 
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        if(!archived){
+        if(!archived) {
             return projectRepository.findAllByStatus(pageRequest, EProjectStatus.ACTIVE);
         }
 
         return projectRepository.findAll(pageRequest);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Project> readAllByUser(UUID uuid) {
-        return null;
+        List<Project> entities = projectRepository.findByManagerUuidOrStaffUuid(uuid, uuid);
+
+        if (entities.isEmpty()) {
+            throw new IllegalArgumentException(INCORRECT_DATA_ERROR);
+        }
+
+        return entities;
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public boolean ifExist(UUID project, UUID implementer) {
+        return projectRepository.existsByUuidAndManagerUuidOrUuidAndStaffUuid(
+                project, implementer,
+                project, implementer);
     }
 }

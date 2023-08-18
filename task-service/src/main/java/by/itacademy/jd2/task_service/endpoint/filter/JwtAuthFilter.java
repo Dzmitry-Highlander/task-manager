@@ -51,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             UserShortDTO userDTO = userService.getMe(jwt);
 
             UserDetails userDetails = User.builder()
-                    .username(userDTO.getEmail())
+                    .username(userDTO.getMail())
                     .password("")
                     .authorities(userDTO.getRole().getRole())
                     .build();
