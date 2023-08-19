@@ -1,6 +1,7 @@
 package by.itacademy.jd2.task_service.endpoint.web;
 
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/project")
-@RequiredArgsConstructor
 public class ProjectController {
     //TODO @RequestBody ProjectCreateDTO
     @PostMapping
@@ -17,21 +17,26 @@ public class ProjectController {
         return null;
     }
 
+    //TODO нужен ли required = false?
     @GetMapping
-    public ResponseEntity<?> read() {
+    public ResponseEntity<?> read(
+            @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "20") @Positive int size,
+            @RequestParam(defaultValue = "false") boolean archived
+            ) {
         return null;
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> read(@PathVariable UUID uuid) {
+    public ResponseEntity<?> read(@PathVariable(value = "uuid") UUID uuid) {
         return null;
     }
 
     //TODO @RequestBody ProjectCreateDTO or ProjectUpdateDTO
     @PutMapping("/{uuid}/dt_update/{dt_update}")
     public ResponseEntity<?> update(
-            @PathVariable UUID uuid,
-            @PathVariable LocalDateTime version
+            @PathVariable(value = "uuid") UUID uuid,
+            @PathVariable(value = "dt_update") LocalDateTime version
             ) {
         return null;
     }
