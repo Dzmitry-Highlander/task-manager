@@ -12,6 +12,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskFilterDTO {
+public class ImplementerFilterDTO {
     private Set<UserRefDTO> implementers;
 }
