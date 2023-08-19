@@ -1,5 +1,6 @@
-package by.itacademy.jd2.task_service.core.dto;
+package by.itacademy.jd2.task_service.core.dto.data;
 
+import by.itacademy.jd2.task_service.core.dto.ref.UserRefDTO;
 import by.itacademy.jd2.task_service.core.enums.EProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

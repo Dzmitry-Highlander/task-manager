@@ -1,4 +1,4 @@
-package by.itacademy.jd2.task_service.core.dto;
+package by.itacademy.jd2.task_service.core.dto.ref;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
