@@ -1,5 +1,6 @@
 package by.itacademy.jd2.task_service.endpoint.web;
 
+import by.itacademy.jd2.base_package.core.dto.PageDTO;
 import by.itacademy.jd2.task_service.core.dto.create.TaskCreationDTO;
 import by.itacademy.jd2.task_service.core.dto.data.TaskDTO;
 import by.itacademy.jd2.task_service.core.dto.filter.FilterDTO;
