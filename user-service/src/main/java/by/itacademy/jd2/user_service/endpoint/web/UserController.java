@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity<?> update(
+    public ResponseEntity<?> put(
             @PathVariable("uuid") UUID uuid,
             @PathVariable("dt_update") String updateDate,
             @Valid @RequestBody UserUpdateDTO userUpdateDTO
