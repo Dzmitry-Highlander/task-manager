@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -72,9 +71,11 @@ public class TaskController {
     @PatchMapping("/{uuid}/dt_update/{dt_update}/status/{status}")
     public ResponseEntity<?> patch(
             @PathVariable(value = "uuid") UUID uuid,
-            @PathVariable(value = "dt_update") LocalDateTime version,
+            @PathVariable(value = "dt_update") String version,
             @PathVariable(value = "status") ETaskStatus taskStatus
     ) {
-        return null;
+        var task = conversionService.convert(taskService.patch(uuid, version, taskStatus), TaskDTO.class);
+
+        return new ResponseEntity<>(task, HttpStatus.ACCEPTED);
     }
 }
