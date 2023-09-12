@@ -6,17 +6,14 @@ import by.itacademy.jd2.task_service.core.dto.update.TaskUpdateDTO;
 import by.itacademy.jd2.task_service.core.enums.ETaskStatus;
 import by.itacademy.jd2.task_service.repository.entity.Task;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.UUID;
 
 public interface ITaskService {
     Task create(TaskCreationDTO taskCreationDTO);
 
-    Page<Task> read(
-            int page,
-            int size,
-            FilterDTO filterDTO
-    );
+    Page<Task> read(PageRequest pageRequest, FilterDTO filterDTO);
 
     Task read(UUID uuid);
 

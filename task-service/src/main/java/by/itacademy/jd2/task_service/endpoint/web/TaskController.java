@@ -1,52 +1,79 @@
 package by.itacademy.jd2.task_service.endpoint.web;
 
+import by.itacademy.jd2.task_service.core.dto.create.TaskCreationDTO;
+import by.itacademy.jd2.task_service.core.dto.data.TaskDTO;
+import by.itacademy.jd2.task_service.core.dto.filter.FilterDTO;
+import by.itacademy.jd2.task_service.core.dto.ref.ProjectRefDTO;
+import by.itacademy.jd2.task_service.core.dto.ref.UserRefDTO;
+import by.itacademy.jd2.task_service.core.dto.update.TaskUpdateDTO;
+import by.itacademy.jd2.task_service.core.enums.ETaskStatus;
+import by.itacademy.jd2.task_service.service.TaskService;
+import by.itacademy.jd2.task_service.service.util.PageConverter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/task")
+@RequiredArgsConstructor
 public class TaskController {
-    //TODO @RequestBody TaskCreateDTO
+    private final TaskService taskService;
+    private final ConversionService conversionService;
+
     @PostMapping
-    public ResponseEntity<?> create() {
-        return null;
+    public ResponseEntity<?> post(@RequestBody TaskCreationDTO taskCreationDTO) {
+        var task = conversionService.convert(taskService.create(taskCreationDTO), TaskDTO.class);
+
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
-    //TODO нужен ли required = false? status = Enum, project and implementer = ???
     @GetMapping
-    public ResponseEntity<?> read(
+    public ResponseEntity<?> get(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
-            @RequestParam Object project,
-            @RequestParam Object implementer,
-            @RequestParam Object status
+            @RequestParam Set<ETaskStatus> statuses,
+            @RequestParam Set<ProjectRefDTO> projects,
+            @RequestParam Set<UserRefDTO> implementers
     ) {
-        return null;
+        FilterDTO filterDTO = new FilterDTO(statuses, projects, implementers);
+
+        PageDTO<TaskDTO> pageDTO = PageConverter.convert(
+                taskService.read(PageRequest.of(page, size), filterDTO), conversionService
+        );
+
+        return new ResponseEntity<>(pageDTO, HttpStatus.OK);
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<?> read(@PathVariable(value = "uuid") UUID uuid) {
-        return null;
+    public ResponseEntity<?> get(@PathVariable(value = "uuid") UUID uuid) {
+        var task = conversionService.convert(taskService.read(uuid), TaskDTO.class);
+
+        return new ResponseEntity<>(task, HttpStatus.OK);
     }
 
-    //TODO @RequestBody TaskCreateDTO или TaskUpdateDTO
     @PutMapping("/{uuid}/dt_update/{dt_update}")
-    public ResponseEntity<?> update(
+    public ResponseEntity<?> put(
             @PathVariable(value = "uuid") UUID uuid,
-            @PathVariable(value = "dt_update") LocalDateTime version
-            ) {
-        return null;
+            @PathVariable(value = "dt_update") String version,
+            @RequestBody TaskUpdateDTO taskUpdateDTO
+    ) {
+        var task = conversionService.convert(taskService.update(uuid, version, taskUpdateDTO), TaskDTO.class);
+
+        return new ResponseEntity<>(task, HttpStatus.ACCEPTED);
     }
 
-    //TODO status = Enum
     @PatchMapping("/{uuid}/dt_update/{dt_update}/status/{status}")
-    public ResponseEntity<?> update(
+    public ResponseEntity<?> patch(
             @PathVariable(value = "uuid") UUID uuid,
             @PathVariable(value = "dt_update") LocalDateTime version,
-            @PathVariable(value = "status") Object status
+            @PathVariable(value = "status") ETaskStatus taskStatus
     ) {
         return null;
     }

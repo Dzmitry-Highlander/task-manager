@@ -45,13 +45,12 @@ public class TaskService implements ITaskService {
     @Transactional(readOnly = true)
     @Override
     public Page<Task> read(
-            int page,
-            int size,
+            PageRequest pageRequest,
             FilterDTO filterDTO
     ) {
         Specification<Task> specification = specificationBuilder(filterDTO);
 
-        return taskRepository.findAll(specification, PageRequest.of(page, size));
+        return taskRepository.findAll(specification, pageRequest);
     }
 
     @Transactional(readOnly = true)
@@ -84,6 +83,7 @@ public class TaskService implements ITaskService {
     @Override
     public Task patch(UUID uuid, String version, ETaskStatus status) {
         LocalDateTime localDateTime = conversionService.convert(version, LocalDateTime.class);
+
         Task task = taskRepository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException(TASK_NOT_FOUND_ERROR));
 
